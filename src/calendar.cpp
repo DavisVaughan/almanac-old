@@ -3,7 +3,7 @@
 #include "ql/time/calendars/all.hpp"
 
 // Defined below
-static QuantLib::BespokeCalendar new_custom_calendar(const Rcpp::List& calendar);
+static QuantLib::BespokeCalendar new_empty_calendar(const Rcpp::List& calendar);
 
 // -----------------------------------------------------------------------------
 
@@ -92,8 +92,8 @@ void adjust_holidays(QuantLib::Calendar calendar,
 QuantLib::Calendar new_calendar(const Rcpp::List& calendar) {
   std::string name = calendar[0];
 
-  if (name == "custom") {
-    return new_custom_calendar(calendar);
+  if (name == "empty") {
+    return new_empty_calendar(calendar);
   }
 
   QuantLib::Calendar ql_calendar = init_calendar(name);
@@ -107,10 +107,10 @@ QuantLib::Calendar new_calendar(const Rcpp::List& calendar) {
 }
 
 // -----------------------------------------------------------------------------
-// "Custom" calendar support - with user defined weekends as well as holidays
+// "empty" calendar support - with user defined weekends as well as holidays
 // Apparently you don't have to remove the weekends like you do the holidays
 
-static QuantLib::BespokeCalendar init_custom_calendar() {
+static QuantLib::BespokeCalendar init_empty_calendar() {
   return QuantLib::BespokeCalendar();
 }
 
@@ -129,15 +129,15 @@ static void add_weekends(QuantLib::BespokeCalendar calendar, const Rcpp::Integer
   }
 }
 
-static QuantLib::BespokeCalendar new_custom_calendar(const Rcpp::List& calendar) {
-  QuantLib::BespokeCalendar custom_calendar = init_custom_calendar();
+static QuantLib::BespokeCalendar new_empty_calendar(const Rcpp::List& calendar) {
+  QuantLib::BespokeCalendar empty_calendar = init_empty_calendar();
 
   Rcpp::DateVector added_holidays = calendar[1];
   Rcpp::DateVector removed_holidays = calendar[2];
   Rcpp::IntegerVector weekends = calendar[3];
 
-  adjust_holidays(custom_calendar, added_holidays, removed_holidays);
-  add_weekends(custom_calendar, weekends);
+  adjust_holidays(empty_calendar, added_holidays, removed_holidays);
+  add_weekends(empty_calendar, weekends);
 
-  return custom_calendar;
+  return empty_calendar;
 }

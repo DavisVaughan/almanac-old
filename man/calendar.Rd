@@ -3,7 +3,7 @@
 \docType{data}
 \name{calendar}
 \alias{calendar}
-\alias{custom_calendar}
+\alias{empty_calendar}
 \alias{default_calendar}
 \alias{set_default_calendar}
 \alias{calendars}
@@ -12,7 +12,7 @@
 \usage{
 calendar(name = calendars$united_states)
 
-custom_calendar(weekends = c(weekday$saturday, weekday$sunday))
+empty_calendar(weekends = c(weekday$saturday, weekday$sunday))
 
 default_calendar()
 
@@ -24,9 +24,15 @@ calendars
 These are various functions revolving around creating calendar objects, and
 setting the default calendar.
 \itemize{
-\item \code{calendar()} constructs a new 'calendar' object.
-\item \code{default_calendar()} is the current default calendar. The default is just
-to use \code{calendar()}.
+\item \code{calendar()} constructs a new calendar object. There are a large
+assortment of existing calendars to pick from, each with their own
+pre-existing holiday list.
+\item \code{empty_calendar()} constructs a special calendar that has no predefined
+holidays, and no predefined business week. You can set the weekends on
+creation.
+\item \code{default_calendar()} queries the current default calendar. The default is just
+to use \code{calendar()}, unless a global calendar has been set
+with \code{set_default_calendar()}.
 \item \code{set_default_calendar()} is used to alter the default calendar. This is
 set globally for all future calls to \code{default_calendar()} in the current
 R session.

@@ -78,22 +78,22 @@ test_that("calendar printing", {
 
 # ------------------------------------------------------------------------------
 
-test_that("custom calendar printing", {
-  cal <- custom_calendar()
-  expect_known_output(print(cal), file = test_path("output/print-custom-calendar.txt"))
+test_that("empty calendar printing", {
+  cal <- empty_calendar()
+  expect_known_output(print(cal), file = test_path("output/print-empty-calendar.txt"))
 
-  cal <- custom_calendar(weekends = weekday)
-  expect_known_output(print(cal), file = test_path("output/print-custom-calendar-weekends.txt"))
+  cal <- empty_calendar(weekends = weekday)
+  expect_known_output(print(cal), file = test_path("output/print-empty-calendar-weekends.txt"))
 
-  cal <- custom_calendar()
+  cal <- empty_calendar()
   holiday <- as.Date("2019-01-02")
   cal <- holidays_add(cal, holiday)
-  expect_known_output(print(cal), file = test_path("output/print-custom-calendar-holiday.txt"))
+  expect_known_output(print(cal), file = test_path("output/print-empty-calendar-holiday.txt"))
 
-  cal <- custom_calendar()
+  cal <- empty_calendar()
   many_holidays <- as.Date("2019-01-02") + 0:10
   cal <- holidays_add(cal, many_holidays)
-  expect_known_output(print(cal), file = test_path("output/print-custom-calendar-many-holidays.txt"))
+  expect_known_output(print(cal), file = test_path("output/print-empty-calendar-many-holidays.txt"))
 })
 
 

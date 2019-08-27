@@ -5,10 +5,17 @@
 #' These are various functions revolving around creating calendar objects, and
 #' setting the default calendar.
 #'
-#' - `calendar()` constructs a new 'calendar' object.
+#' - `calendar()` constructs a new calendar object. There are a large
+#'   assortment of existing calendars to pick from, each with their own
+#'   pre-existing holiday list.
 #'
-#' - `default_calendar()` is the current default calendar. The default is just
-#'   to use `calendar()`.
+#' - `empty_calendar()` constructs a special calendar that has no predefined
+#'   holidays, and no predefined business week. You can set the weekends on
+#'   creation.
+#'
+#' - `default_calendar()` queries the current default calendar. The default is just
+#'   to use `calendar()`, unless a global calendar has been set
+#'   with `set_default_calendar()`.
 #'
 #' - `set_default_calendar()` is used to alter the default calendar. This is
 #'   set globally for all future calls to `default_calendar()` in the current
@@ -51,18 +58,6 @@ print.calendar <- function(x, ...) {
   )
 }
 
-bullet_list <- function(x) {
-  if (vec_size(x) > 5L) {
-    x <- x[1:5]
-    x <- paste("   - ", x, collapse = "\n")
-    x <- c(x, "\n   - ...")
-  } else {
-    x <- paste("   - ", x, collapse = "\n")
-  }
-
-  x
-}
-
 new_calendar <- function(name = calendars$united_states,
                          added_holidays = new_date(),
                          removed_holidays = new_date(),
@@ -93,20 +88,20 @@ new_calendar <- function(name = calendars$united_states,
 
 #' @rdname calendar
 #' @export
-custom_calendar <- function(weekends = c(weekday$saturday, weekday$sunday)) {
+empty_calendar <- function(weekends = c(weekday$saturday, weekday$sunday)) {
   weekends <- vec_cast(weekends, integer())
   weekends <- vec_unique(weekends)
   weekends <- vec_sort(weekends)
   assert_weekends(weekends)
-  new_custom_calendar(weekends = weekends)
+  new_empty_calendar(weekends = weekends)
 }
 
 #' @export
-print.custom_calendar <- function(x, ...) {
+print.empty_calendar <- function(x, ...) {
   NextMethod()
 
   if(has_weekends(x)) {
-    header <- "Custom weekends: \n"
+    header <- "Weekends: \n"
     weekends <- get_weekends(x)
     weekdays <- vec_c(!!!weekday)
 
@@ -125,7 +120,7 @@ print.custom_calendar <- function(x, ...) {
   cat(weekends)
 }
 
-new_custom_calendar <- function(added_holidays = new_date(),
+new_empty_calendar <- function(added_holidays = new_date(),
                                 removed_holidays = new_date(),
                                 weekends = c(weekday$saturday, weekday$sunday)) {
   if (!is.integer(weekends)) {
@@ -133,11 +128,11 @@ new_custom_calendar <- function(added_holidays = new_date(),
   }
 
   new_calendar(
-    name = "custom",
+    name = "empty",
     added_holidays = added_holidays,
     removed_holidays = removed_holidays,
     weekends = weekends,
-    subclass = "custom_calendar"
+    subclass = "empty_calendar"
   )
 }
 
@@ -242,8 +237,8 @@ get_name <- function(x) {
 }
 
 get_header <- function(x) {
-  if (inherits(x, "custom_calendar")) {
-    "<Custom Calendar>"
+  if (inherits(x, "empty_calendar")) {
+    "<Calendar>"
   } else {
     paste0("<Calendar: ", get_name(x), ">")
   }
@@ -282,4 +277,16 @@ assert_weekends <- function(x) {
 
 capitalize <- function(x) {
   paste0(toupper(substring(x, 1, 1)), substring(x, 2))
+}
+
+bullet_list <- function(x) {
+  if (vec_size(x) > 5L) {
+    x <- x[1:5]
+    x <- paste("   - ", x, collapse = "\n")
+    x <- c(x, "\n   - ...")
+  } else {
+    x <- paste("   - ", x, collapse = "\n")
+  }
+
+  x
 }

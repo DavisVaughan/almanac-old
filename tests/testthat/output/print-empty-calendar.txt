@@ -1,0 +1,4 @@
+<Calendar>
+Weekends: 
+    - Sunday
+    - Saturday

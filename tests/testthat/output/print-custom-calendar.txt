@@ -1,4 +1,0 @@
-<Custom Calendar>
-Custom weekends: 
-    - Sunday
-    - Saturday

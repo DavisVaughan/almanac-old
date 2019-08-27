@@ -1,5 +1,5 @@
-<Custom Calendar>
-Custom weekends: 
+<Calendar>
+Weekends: 
     - Sunday
     - Monday
     - Tuesday

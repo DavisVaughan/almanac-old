@@ -1,6 +1,6 @@
-<Custom Calendar>
+<Calendar>
 Added holidays: 
    -  2019-01-02
-Custom weekends: 
+Weekends: 
     - Sunday
     - Saturday
