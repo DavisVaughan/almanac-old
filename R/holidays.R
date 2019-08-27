@@ -1,7 +1,7 @@
 #' @export
 holidays_add <- function(calendar, holidays) {
   assert_calendar(calendar)
-  vec_assert(holidays, new_date())
+  holidays <- vec_cast(holidays, new_date())
 
   holidays <- set_union(get_holidays(calendar), holidays)
   holidays <- vec_sort(holidays)
@@ -14,7 +14,7 @@ holidays_add <- function(calendar, holidays) {
 #' @export
 holidays_remove <- function(calendar, holidays) {
   assert_calendar(calendar)
-  vec_assert(holidays, new_date())
+  holidays <- vec_cast(holidays, new_date())
 
   holidays <- set_diff(get_holidays(calendar), holidays)
 
@@ -30,8 +30,8 @@ holidays_custom <- function(calendar) {
 }
 
 #' @export
-holidays_all <- function(calendar) {
-  holidays_between(beginning_of_time(), end_of_time(), calendar = calendar)
+holidays_all <- function(calendar, weekends = FALSE) {
+  holidays_between(beginning_of_time(), end_of_time(), weekends = weekends, calendar = calendar)
 }
 
 #' @export
@@ -42,7 +42,7 @@ holidays_all_calendars <- function() {
 
   holiday_df <- new_data_frame(list(
     calendar = names_of_calendars,
-    holidays = list_of_holidays
+    holidays = as_list_of(list_of_holidays)
   ))
 
   if (is_installed("tibble")) {
@@ -54,14 +54,28 @@ holidays_all_calendars <- function() {
 
 #' @export
 holidays_between <- function(start, stop, weekends = FALSE, calendar = default_calendar()) {
-  vec_assert(start, ptype = new_date(), size = 1L)
-  vec_assert(stop, ptype = new_date(), size = 1L)
+  start <- vec_cast(start, new_date())
+  stop <- vec_cast(stop, new_date())
+  vec_assert(start, size = 1L)
+  vec_assert(stop, size = 1L)
+  assert_start_before_stop(start, stop)
   vec_assert(weekends, ptype = logical(), size = 1L)
   assert_calendar(calendar)
   calendar_holidays_between(start, stop, weekends, calendar)
 }
 
+assert_start_before_stop <- function(start, stop) {
+  if (vec_compare(start, stop) >= 0L) {
+    glubort("`start` ({start}) must be strictly less than `stop` ({stop}).")
+  }
+  invisible()
+}
+
 # ------------------------------------------------------------------------------
+
+glubort <- function (..., .sep = "", .envir = parent.frame()) {
+  abort(glue::glue(..., .sep = .sep, .envir = .envir))
+}
 
 beginning_of_time <- function() {
   as.Date("1901-01-01")
