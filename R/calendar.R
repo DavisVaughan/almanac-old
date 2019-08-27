@@ -25,7 +25,7 @@ set_default_calendar <- function(x) {
   invisible(x)
 }
 
-calendar_env <- new.env()
+calendar_env <- new.env(parent = emptyenv())
 
 #' @export
 print.calendar <- function(x, ...) {
