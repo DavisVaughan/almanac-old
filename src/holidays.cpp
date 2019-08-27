@@ -13,8 +13,8 @@ Rcpp::DateVector calendar_holidays_between(const Rcpp::DateVector start,
   std::vector<QuantLib::Date> ql_holidays = QuantLib::Calendar::holidayList(
     ql_calendar,
     ql_start[0],
-            ql_stop[0],
-                   weekends
+    ql_stop[0],
+    weekends
   );
 
   Rcpp::DateVector out = as_r_date(ql_holidays);
