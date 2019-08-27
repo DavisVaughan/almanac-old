@@ -36,15 +36,6 @@ cal_advance <- function(x,
 }
 
 #' @export
-cal_detect_holidays <- function(start, stop, weekends = FALSE, calendar = default_calendar()) {
-  vec_assert(start, ptype = new_date(), size = 1L)
-  vec_assert(stop, ptype = new_date(), size = 1L)
-  vec_assert(weekends, ptype = logical(), size = 1L)
-  assert_calendar(calendar)
-  calendar_detect_holidays(start, stop, weekends, calendar)
-}
-
-#' @export
 cal_count_business_days_between <- function(starts, stops, calendar = default_calendar()) {
   vec_assert(starts, ptype = new_date())
   vec_assert(stops, ptype = new_date())

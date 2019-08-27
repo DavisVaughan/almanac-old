@@ -1,5 +1,5 @@
 #' @export
-cal_add_holidays <- function(calendar, holidays) {
+holidays_add <- function(calendar, holidays) {
   assert_calendar(calendar)
   vec_assert(holidays, new_date())
 
@@ -12,7 +12,7 @@ cal_add_holidays <- function(calendar, holidays) {
 }
 
 #' @export
-cal_remove_holidays <- function(calendar, holidays) {
+holidays_remove <- function(calendar, holidays) {
   assert_calendar(calendar)
   vec_assert(holidays, new_date())
 
@@ -24,12 +24,34 @@ cal_remove_holidays <- function(calendar, holidays) {
 }
 
 #' @export
-cal_holidays <- function(calendar) {
+holidays_custom <- function(calendar) {
   assert_calendar(calendar)
   get_holidays(calendar)
 }
 
+#' @export
+holidays_all <- function(calendar) {
+  holidays_between(beginning_of_time(), end_of_time(), calendar = calendar)
+}
+
+#' @export
+holidays_between <- function(start, stop, weekends = FALSE, calendar = default_calendar()) {
+  vec_assert(start, ptype = new_date(), size = 1L)
+  vec_assert(stop, ptype = new_date(), size = 1L)
+  vec_assert(weekends, ptype = logical(), size = 1L)
+  assert_calendar(calendar)
+  calendar_holidays_between(start, stop, weekends, calendar)
+}
+
 # ------------------------------------------------------------------------------
+
+beginning_of_time <- function() {
+  as.Date("1901-01-01")
+}
+
+end_of_time <- function() {
+  as.Date("2199-12-30")
+}
 
 set_union <- function(x, y) {
   vec_unique(vec_c(x, y))
