@@ -13,29 +13,34 @@ Rcpp::DateVector calendar_seq(const Rcpp::DateVector start,
                               const std::string& stop_convention,
                               const bool& end_of_month,
                               const Rcpp::List& calendar) {
-  Rcpp::DateVector real_start(1);
-  Rcpp::DateVector real_stop(1);
   QuantLib::DateGeneration::Rule rule;
-
   Rcpp::LogicalVector start_before_stop = start <= stop;
 
+  std::vector<QuantLib::Date> ql_start;
+  std::vector<QuantLib::Date> ql_stop;
+
+  QuantLib::BusinessDayConvention ql_start_convention;
+  QuantLib::BusinessDayConvention ql_stop_convention;
+
+  bool reverse;
+
   if (start_before_stop[0]) {
-    real_start = start;
-    real_stop = stop;
+    ql_start = as_quantlib_date(start);
+    ql_stop = as_quantlib_date(stop);
+    ql_start_convention = as_business_day_convention(start_convention);
+    ql_stop_convention = as_business_day_convention(stop_convention);
     rule = QuantLib::DateGeneration::Forward;
+    reverse = false;
   } else {
-    real_start = stop;
-    real_stop = start;
+    ql_start = as_quantlib_date(stop);
+    ql_stop = as_quantlib_date(start);
+    ql_start_convention = as_business_day_convention(stop_convention);
+    ql_stop_convention = as_business_day_convention(start_convention);
     rule = QuantLib::DateGeneration::Backward;
+    reverse = true;
   }
 
   QuantLib::Calendar ql_calendar = new_calendar(calendar);
-
-  std::vector<QuantLib::Date> ql_start = as_quantlib_date(real_start);
-  std::vector<QuantLib::Date> ql_stop = as_quantlib_date(real_stop);
-
-  QuantLib::BusinessDayConvention ql_start_convention = as_business_day_convention(start_convention);
-  QuantLib::BusinessDayConvention ql_stop_convention = as_business_day_convention(stop_convention);
 
   QuantLib::TimeUnit ql_timeunit = as_time_unit(unit);
   QuantLib::Period ql_period(by[0], ql_timeunit);
@@ -53,6 +58,10 @@ Rcpp::DateVector calendar_seq(const Rcpp::DateVector start,
   std::vector<QuantLib::Date> new_dates = schedule.dates();
 
   Rcpp::DateVector out = as_r_date(new_dates);
+
+  if (reverse) {
+    std::reverse(out.begin(), out.end());
+  }
 
   reset_calendar(ql_calendar);
   return out;
