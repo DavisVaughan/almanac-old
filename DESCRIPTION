@@ -22,4 +22,5 @@ Imports:
     vctrs,
     rlang
 Suggests: 
-    tibble
+    tibble,
+    testthat (>= 2.1.0)
