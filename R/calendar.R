@@ -1,3 +1,21 @@
+#' Construct a calendar
+#'
+#' @description
+#'
+#' These are various functions revolving around creating calendar objects, and
+#' setting the default calendar.
+#'
+#' - `calendar()` constructs a new 'calendar' object.
+#'
+#' - `default_calendar()` is the current default calendar. The default is just
+#'   to use `calendar()`.
+#'
+#' - `set_default_calendar()` is used to alter the default calendar. This is
+#'   set globally for all future calls to `default_calendar()` in the current
+#'   R session.
+#'
+#' - `calendars` lists the set of possible calendars that can be used.
+#'
 #' @export
 calendar <- function(name = calendars$united_states) {
   vec_assert(name, ptype = character(), size = 1L)
@@ -5,6 +23,7 @@ calendar <- function(name = calendars$united_states) {
   new_calendar(name, holidays = new_date())
 }
 
+#' @rdname calendar
 #' @export
 default_calendar <- function() {
   if (is.null(calendar_env$calendar)) {
@@ -14,6 +33,7 @@ default_calendar <- function() {
   }
 }
 
+#' @rdname calendar
 #' @export
 set_default_calendar <- function(x) {
   assert_calendar(x)
@@ -72,6 +92,7 @@ new_calendar <- function(name = calendars$united_states, holidays = new_date()) 
 
 # ------------------------------------------------------------------------------
 
+#' @rdname calendar
 #' @export
 calendars <- list(
   argentina = "argentina",
