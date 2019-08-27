@@ -20,52 +20,71 @@
 calendar <- function(name = calendars$united_states) {
   vec_assert(name, ptype = character(), size = 1L)
   validate_calendar_name(name)
-  new_calendar(name, holidays = new_date())
+  new_calendar(name = name)
 }
 
 #' @export
 print.calendar <- function(x, ...) {
-  if(has_holidays(x)) {
-    header <- "Custom holidays: \n"
-    holidays <- get_holidays(x)
-
-    if (vec_size(holidays) > 5L) {
-      holidays <- holidays[1:5]
-      holidays <- paste0("   - ", holidays, "\n")
-      holidays <- c(holidays, "   - ...\n")
-    } else {
-      holidays <- paste0("   - ", holidays, "\n")
-    }
-
-    holidays <- c(header, holidays)
+  if(has_added_holidays(x)) {
+    header <- "Added holidays: \n"
+    added_holidays <- get_added_holidays(x)
+    added_holidays <- bullet_list(added_holidays)
+    added_holidays <- c("\n", header, added_holidays)
   } else {
-    holidays <- ""
+    added_holidays <- ""
+  }
+
+  if(has_removed_holidays(x)) {
+    header <- "Removed holidays: \n"
+    removed_holidays <- get_removed_holidays(x)
+    removed_holidays <- bullet_list(removed_holidays)
+    removed_holidays <- c("\n", header, removed_holidays)
+  } else {
+    removed_holidays <- ""
   }
 
   cat(
     get_header(x),
-    "\n",
-    holidays,
+    added_holidays,
+    removed_holidays,
     sep = ""
   )
 }
 
+bullet_list <- function(x) {
+  if (vec_size(x) > 5L) {
+    x <- x[1:5]
+    x <- paste("   - ", x, collapse = "\n")
+    x <- c(x, "\n   - ...")
+  } else {
+    x <- paste("   - ", x, collapse = "\n")
+  }
+
+  x
+}
+
 new_calendar <- function(name = calendars$united_states,
-                         holidays = new_date(),
+                         added_holidays = new_date(),
+                         removed_holidays = new_date(),
                          ...,
                          subclass = character()) {
   if (!is.character(name)) {
     abort("`name` must be a character vector.")
   }
 
-  if (!vec_is(holidays, new_date())) {
-    abort("`holidays` must be a Date vector.")
+  if (!vec_is(added_holidays, new_date())) {
+    abort("`added_holidays` must be a Date vector.")
+  }
+
+  if (!vec_is(removed_holidays, new_date())) {
+    abort("`removed_holidays` must be a Date vector.")
   }
 
   structure(
     list(
       name = name,
-      holidays = holidays,
+      added_holidays = added_holidays,
+      removed_holidays = removed_holidays,
       ...
     ),
     class = c(subclass, "calendar")
@@ -102,10 +121,12 @@ print.custom_calendar <- function(x, ...) {
     weekends <- ""
   }
 
+  cat("\n")
   cat(weekends)
 }
 
-new_custom_calendar <- function(holidays = new_date(),
+new_custom_calendar <- function(added_holidays = new_date(),
+                                removed_holidays = new_date(),
                                 weekends = c(weekday$saturday, weekday$sunday)) {
   if (!is.integer(weekends)) {
     abort("`weekends` must be an integer vector.")
@@ -113,7 +134,8 @@ new_custom_calendar <- function(holidays = new_date(),
 
   new_calendar(
     name = "custom",
-    holidays = holidays,
+    added_holidays = added_holidays,
+    removed_holidays = removed_holidays,
     weekends = weekends,
     subclass = "custom_calendar"
   )
@@ -181,8 +203,12 @@ is_calendar <- function(x) {
   inherits(x, "calendar")
 }
 
-has_holidays <- function(x) {
-  !identical(get_holidays(x), new_date())
+has_added_holidays <- function(x) {
+  !identical(get_added_holidays(x), new_date())
+}
+
+has_removed_holidays <- function(x) {
+  !identical(get_removed_holidays(x), new_date())
 }
 
 has_weekends <- function(x) {
@@ -193,12 +219,21 @@ get_weekends <- function(x) {
   x[["weekends"]]
 }
 
-get_holidays <- function(x) {
-  x[["holidays"]]
+get_added_holidays <- function(x) {
+  x[["added_holidays"]]
 }
 
-set_holidays <- function(x, holidays) {
-  x[["holidays"]] <- holidays
+get_removed_holidays <- function(x) {
+  x[["removed_holidays"]]
+}
+
+set_added_holidays <- function(x, holidays) {
+  x[["added_holidays"]] <- holidays
+  x
+}
+
+set_removed_holidays <- function(x, holidays) {
+  x[["removed_holidays"]] <- holidays
   x
 }
 

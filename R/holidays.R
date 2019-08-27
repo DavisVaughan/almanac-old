@@ -1,32 +1,85 @@
+#' Add and remove holidays
+#'
+#' @description
+#'
+#' - Use `holidays_add()` to add new holidays to a calendar. Existing holidays
+#'   are ignored. If a holiday you are trying to add has previously been
+#'   removed, then it will be re-added.
+#'
+#' - Use `holiday_remove()` to remove holidays from a calendar. These can be
+#'   manually added holidays from using `holidays_add()`, or pre-existing
+#'   holidays in that calendar (such as July 4th for a certain year in the
+#'   `"united_states"` calendar). Dates that are not holidays are ignored.
+#'
 #' @export
 holidays_add <- function(calendar, holidays) {
   assert_calendar(calendar)
   holidays <- vec_cast(holidays, new_date())
 
-  holidays <- set_union(get_holidays(calendar), holidays)
+  removed_holidays <- get_removed_holidays(calendar)
+  in_removed <- vec_in(holidays, removed_holidays)
+
+  if (any(in_removed)) {
+    removed_holidays_to_add <- vec_slice(holidays, in_removed)
+    new_removed_holidays <- set_diff(removed_holidays, removed_holidays_to_add)
+
+    calendar <- set_removed_holidays(calendar, new_removed_holidays)
+
+    holidays <- vec_slice(holidays, !in_removed)
+  }
+
+  # Only add to the holiday list if it is not already a holiday
+  is_holiday <- cal_is_holiday(holidays, calendar)
+  holidays <- holidays[!is_holiday]
+
+  holidays <- set_union(get_added_holidays(calendar), holidays)
   holidays <- vec_sort(holidays)
 
-  calendar <- set_holidays(calendar, holidays)
+  calendar <- set_added_holidays(calendar, holidays)
 
   calendar
 }
 
+#' @rdname holidays_add
 #' @export
 holidays_remove <- function(calendar, holidays) {
   assert_calendar(calendar)
   holidays <- vec_cast(holidays, new_date())
 
-  holidays <- set_diff(get_holidays(calendar), holidays)
+  added_holidays <- get_added_holidays(calendar)
+  in_added <- vec_in(holidays, added_holidays)
 
-  calendar <- set_holidays(calendar, holidays)
+  if (any(in_added)) {
+    added_holidays_to_remove <- vec_slice(holidays, in_added)
+    new_added_holidays <- set_diff(added_holidays, added_holidays_to_remove)
+
+    calendar <- set_added_holidays(calendar, new_added_holidays)
+
+    holidays <- vec_slice(holidays, !in_added)
+  }
+
+  # Only add to the remove list if it is actually a holiday
+  is_holiday <- cal_is_holiday(holidays, calendar)
+  holidays <- holidays[is_holiday]
+
+  holidays <- set_union(get_removed_holidays(calendar), holidays)
+  holidays <- vec_sort(holidays)
+
+  calendar <- set_removed_holidays(calendar, holidays)
 
   calendar
 }
 
 #' @export
-holidays_custom <- function(calendar) {
+holidays_added <- function(calendar) {
   assert_calendar(calendar)
-  get_holidays(calendar)
+  get_added_holidays(calendar)
+}
+
+#' @export
+holidays_removed <- function(calendar) {
+  assert_calendar(calendar)
+  get_removed_holidays(calendar)
 }
 
 #' @export

@@ -5,7 +5,9 @@
 // Defined below
 static QuantLib::BespokeCalendar new_custom_calendar(const Rcpp::List& calendar);
 
-void reset_calendar(QuantLib::Calendar calendar) {
+// -----------------------------------------------------------------------------
+
+void reset_added_holidays(QuantLib::Calendar calendar) {
   std::set<QuantLib::Date> holidays = calendar.addedHolidays();
   std::set<QuantLib::Date>::iterator it;
 
@@ -13,6 +15,22 @@ void reset_calendar(QuantLib::Calendar calendar) {
     calendar.removeHoliday(*it);
   }
 }
+
+void reset_removed_holidays(QuantLib::Calendar calendar) {
+  std::set<QuantLib::Date> holidays = calendar.removedHolidays();
+  std::set<QuantLib::Date>::iterator it;
+
+  for (it = holidays.begin(); it != holidays.end(); ++it){
+    calendar.addHoliday(*it);
+  }
+}
+
+void reset_calendar(QuantLib::Calendar calendar) {
+  reset_added_holidays(calendar);
+  reset_removed_holidays(calendar);
+}
+
+// -----------------------------------------------------------------------------
 
 static QuantLib::Calendar init_calendar(const std::string& name) {
   if (name == "argentina" || name == "argentina_merval") {
@@ -26,8 +44,14 @@ static QuantLib::Calendar init_calendar(const std::string& name) {
   Rf_errorcall(R_NilValue, "Unknown calendar name, '%s'", name.c_str());
 }
 
-static void append_holidays(QuantLib::Calendar calendar, const Rcpp::DateVector& dates) {
+// -----------------------------------------------------------------------------
+
+static void add_holidays(QuantLib::Calendar calendar, const Rcpp::DateVector& dates) {
   int size = dates.size();
+
+  if (size == 0) {
+    return;
+  }
 
   std::vector<QuantLib::Date> holidays = as_quantlib_date(dates);
 
@@ -39,6 +63,32 @@ static void append_holidays(QuantLib::Calendar calendar, const Rcpp::DateVector&
   }
 }
 
+static void remove_holidays(QuantLib::Calendar calendar, const Rcpp::DateVector& dates) {
+  int size = dates.size();
+
+  if (size == 0) {
+    return;
+  }
+
+  std::vector<QuantLib::Date> holidays = as_quantlib_date(dates);
+
+  QuantLib::Date holiday;
+
+  for(int i = 0; i < size; i++) {
+    holiday = holidays[i];
+    calendar.removeHoliday(holiday);
+  }
+}
+
+void adjust_holidays(QuantLib::Calendar calendar,
+                     const Rcpp::DateVector& added_holidays,
+                     const Rcpp::DateVector& removed_holidays) {
+  add_holidays(calendar, added_holidays);
+  remove_holidays(calendar, removed_holidays);
+}
+
+// -----------------------------------------------------------------------------
+
 QuantLib::Calendar new_calendar(const Rcpp::List& calendar) {
   std::string name = calendar[0];
 
@@ -46,14 +96,12 @@ QuantLib::Calendar new_calendar(const Rcpp::List& calendar) {
     return new_custom_calendar(calendar);
   }
 
-  Rcpp::DateVector holidays = calendar[1];
-  bool has_holidays = holidays.size() > 0;
-
   QuantLib::Calendar ql_calendar = init_calendar(name);
 
-  if (has_holidays) {
-    append_holidays(ql_calendar, holidays);
-  }
+  Rcpp::DateVector added_holidays = calendar[1];
+  Rcpp::DateVector removed_holidays = calendar[2];
+
+  adjust_holidays(ql_calendar, added_holidays, removed_holidays);
 
   return ql_calendar;
 }
@@ -66,8 +114,12 @@ static QuantLib::BespokeCalendar init_custom_calendar() {
   return QuantLib::BespokeCalendar();
 }
 
-static void append_weekends(QuantLib::BespokeCalendar calendar, const Rcpp::IntegerVector& weekends) {
+static void add_weekends(QuantLib::BespokeCalendar calendar, const Rcpp::IntegerVector& weekends) {
   int size = weekends.size();
+
+  if (size == 0) {
+    return;
+  }
 
   QuantLib::Weekday weekend;
 
@@ -80,19 +132,12 @@ static void append_weekends(QuantLib::BespokeCalendar calendar, const Rcpp::Inte
 static QuantLib::BespokeCalendar new_custom_calendar(const Rcpp::List& calendar) {
   QuantLib::BespokeCalendar custom_calendar = init_custom_calendar();
 
-  Rcpp::DateVector holidays = calendar[1];
-  bool has_holidays = holidays.size() > 0;
+  Rcpp::DateVector added_holidays = calendar[1];
+  Rcpp::DateVector removed_holidays = calendar[2];
+  Rcpp::IntegerVector weekends = calendar[3];
 
-  Rcpp::IntegerVector weekends = calendar[2];
-  bool has_weekends = weekends.size() > 0;
-
-  if (has_holidays) {
-    append_holidays(custom_calendar, holidays);
-  }
-
-  if (has_weekends) {
-    append_weekends(custom_calendar, weekends);
-  }
+  adjust_holidays(custom_calendar, added_holidays, removed_holidays);
+  add_weekends(custom_calendar, weekends);
 
   return custom_calendar;
 }
