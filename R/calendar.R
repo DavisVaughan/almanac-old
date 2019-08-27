@@ -16,9 +16,7 @@ default_calendar <- function() {
 
 #' @export
 set_default_calendar <- function(x) {
-  if (!is_calendar(x)) {
-    abort(glue::glue("`x` must be a 'calendar' object, not a '{class(x)[1]}'."))
-  }
+  assert_calendar(x)
 
   calendar_env$calendar <- x
 
