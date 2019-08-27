@@ -42,6 +42,45 @@
 #'   - `"Friday"`
 #'   - `"Saturday"`
 #'
+#' @param calendar `[calendar]`
+#'
+#'   The new default calendar to use. This will be returned any time
+#'   `default_calendar()` is called, which is the default used for
+#'   the `calendar` argument across many almanac functions.
+#'
+#' @return
+#'
+#' - `calendar()` returns a new calendar.
+#'
+#' - `empty_calendar()` returns a new empty calendar.
+#'
+#' - `default_calendar()` returns the default calendar.
+#'
+#' - `calendars` returns a named `list_of<character>`.
+#'
+#' @examples
+#' calendar()
+#'
+#' calendar(calendars$argentina)
+#'
+#' empty_calendar()
+#'
+#' empty_calendar(weekends = "Monday")
+#'
+#' default_calendar()
+#'
+#' # Set the default calendar globally
+#' cal <- calendar(calendars$argentina)
+#' set_default_calendar(cal)
+#'
+#' default_calendar()
+#'
+#' # Reset back to the original default
+#' set_default_calendar(calendar())
+#' default_calendar()
+#'
+#' # All available calendars
+#' calendars
 #'
 #' @export
 calendar <- function(name = calendars$united_states) {
@@ -165,12 +204,12 @@ default_calendar <- function() {
 
 #' @rdname calendar
 #' @export
-set_default_calendar <- function(x) {
-  assert_calendar(x)
+set_default_calendar <- function(calendar) {
+  assert_calendar(calendar)
 
-  calendar_env$calendar <- x
+  calendar_env$calendar <- calendar
 
-  invisible(x)
+  invisible(calendar)
 }
 
 calendar_env <- new.env(parent = emptyenv())
@@ -179,7 +218,7 @@ calendar_env <- new.env(parent = emptyenv())
 
 #' @rdname calendar
 #' @export
-calendars <- list(
+calendars <- vctrs::list_of(
   argentina = "argentina",
   argentina_merval = "argentina_merval",
 
@@ -188,7 +227,7 @@ calendars <- list(
 )
 
 #' @export
-conventions <- list(
+conventions <- vctrs::list_of(
   following = "following",
   modified_following = "modified_following",
   preceding = "preceding",

@@ -100,14 +100,14 @@ test_that("empty calendar printing", {
 # ------------------------------------------------------------------------------
 
 test_that("calendars object", {
-  expect_is(calendars, "list")
+  expect_is(calendars, "vctrs_list_of")
   expect_true(is_named(calendars))
 })
 
 test_that("conventions object", {
   expect_equal(
     conventions,
-    list(
+    list_of(
       following = "following",
       modified_following = "modified_following",
       preceding = "preceding",
