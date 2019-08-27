@@ -2,7 +2,7 @@
 
 static const unsigned int quantlib_to_r_offset_in_days = 25569;
 
-std::vector<QuantLib::Date> as_quantlib_date(Rcpp::DateVector dates) {
+std::vector<QuantLib::Date> as_quantlib_date(const Rcpp::DateVector dates) {
   int size = dates.size();
 
   std::vector<QuantLib::Date> new_dates(size);
@@ -23,7 +23,7 @@ std::vector<QuantLib::Date> as_quantlib_date(Rcpp::DateVector dates) {
   return new_dates;
 }
 
-Rcpp::DateVector as_r_date(std::vector<QuantLib::Date> dates) {
+Rcpp::DateVector as_r_date(const std::vector<QuantLib::Date> dates) {
   int size = dates.size();
 
   Rcpp::DateVector new_dates(size);

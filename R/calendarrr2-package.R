@@ -6,5 +6,7 @@
 ## usethis namespace: start
 #' @useDynLib calendarrr2, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
+#' @import vctrs
+#' @import rlang
 ## usethis namespace: end
 NULL

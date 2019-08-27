@@ -1,0 +1,75 @@
+---
+title: "QuantLib API"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## QuantLib Types
+
+- qldefines.hpp
+  - `QL_INTEGER` - Defined as `int` if not set at compile time
+  - `QL_BIGINTEGER` - Defined as `long` if not set at compile time
+
+- types.hpp
+  - `Integer` - `typedef QL_INTEGER Integer`
+  - `BigInteger` - `typedef QL_BIGINTEGER BigInteger`
+  
+- date.hpp
+  - `Day` - `typedef Integer Day`
+  - `Month` - An enum mapping `January = 1` and so on. Access with `QuantLib::Month::January`
+  - `Year` - `typedef Integer Year`
+  - `serial_type` - `typedef boost::int_fast32_t serial_type`
+
+## QuantLib API
+
+- date.hpp
+
+  - `Date` constructor
+    - `Date(Date::serial_type serialNumber)`
+      - Add offset of `25569` to an R `Date` to match the QuantLib Date epoch
+    - `Date(Day d, Month m, Year y)`
+    - `Date(const boost::posix_time::ptime& localTime)`
+      - Can use `boost::gregorian::date()` to create a `boost::posix_time::ptime` from a POSIXct object. This is a Rcpp DateTime object.
+    - `Date(Day d, Month m, Year y, Hour hours, Minute minutes, Second seconds, Millisecond millisec = 0, Microsecond microsec = 0)`
+    
+## Gameplan
+
+- To be less confusing, don't use `wrap()` and `as()`. Use:
+  - `std::vector<QuantLib::Date> as_ql_date(Rcpp::DateVector dates)`
+  - `std::vector<QuantLib::Date> as_ql_date(Rcpp::DatetimeVector datetimes)`
+  - `Rcpp::DateVector as_r_date(std::vector<QuantLib::Date> dates)`
+  - `Rcpp::DatetimeVector as_r_datetime(std::vector<QuantLib::Date> datetimes)`
+  - Need a way to know how to "promote" a Date to a Datetime if required.
+    - lubridate uses https://github.com/tidyverse/lubridate/blob/cd8267976e51bfab9bd43f9eb30f2749d45e4ff9/R/ops-addition.r#L58
+
+- Implement coercion to and from R Dates and QuantLib Dates.
+- Do not define `QL_HIGH_RESOLUTION_DATE`, as datetimes are hard.
+
+- Implement `Schedules` to generate date sequences based on calendars.
+  - `cal_seq(start, stop, period, convention = "following", calendar = default_calendar())`
+    - If `start > stop`, set `rule = "backwards"` else `rule = "forwards"`
+    - use `dates()` to generate the whole schedule immediately
+
+- Implement calendars.
+  - `cal_is_business_day(x, calendar)`
+  - `cal_is_weekend(x, calendar)`
+  - `cal_is_holiday(x, calendar)`
+  - `cal_is_end_of_month(x, calendar)`
+  - `cal_add_holiday(x, calendar)`
+  - `cal_remove_holiday(x, calendar)`
+  - `cal_holidays(start, stop, include_weekends = FALSE, calendar = default_calendar())`
+  - Use a default calendar
+    - `calendar = default_calendar()`
+    - This should be overridable globally, would set into `calendar_env$calendar`
+    - Defaults to `"united_states"`
+  - Calendar object
+    - `calendar()`
+    - `new_calendar()`
+  - `cal_adjust(x, convention = "following", calendar = default_calendar())`
+  - `cal_advance(x, period, convention = "following", end_of_month = FALSE, calendar = default_calendar())`
+    - `period` is a lubridate period object
+  - `cal_count_business_days_between(start, stop, calendar = default_calendar())`
+    - Make both of these inclusive at the C level!
