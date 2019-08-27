@@ -20,7 +20,8 @@ LinkingTo:
 Imports: 
     Rcpp,
     vctrs,
-    rlang
+    rlang,
+    glue
 Suggests: 
     tibble,
     testthat (>= 2.1.0)
