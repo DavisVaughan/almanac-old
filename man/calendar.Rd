@@ -12,13 +12,34 @@
 \usage{
 calendar(name = calendars$united_states)
 
-empty_calendar(weekends = c(weekday$saturday, weekday$sunday))
+empty_calendar(weekends = c("Saturday", "Sunday"))
 
 default_calendar()
 
 set_default_calendar(x)
 
 calendars
+}
+\arguments{
+\item{name}{\code{[character(1)]}
+
+The base calendar to create. This should be one of the options listed in
+\code{calendars}.}
+
+\item{weekends}{\code{[character]}
+
+Weekdays that should be special-cased as weekends. Weekends are considered
+"holidays," and are skipped over when shifting dates forward in the
+business week. Choose from:
+\itemize{
+\item \code{"Sunday"}
+\item \code{"Monday"}
+\item \code{"Tuesday"}
+\item \code{"Wednesday"}
+\item \code{"Thursday"}
+\item \code{"Friday"}
+\item \code{"Saturday"}
+}}
 }
 \description{
 These are various functions revolving around creating calendar objects, and

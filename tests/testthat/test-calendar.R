@@ -82,7 +82,7 @@ test_that("empty calendar printing", {
   cal <- empty_calendar()
   expect_known_output(print(cal), file = test_path("output/print-empty-calendar.txt"))
 
-  cal <- empty_calendar(weekends = weekday)
+  cal <- empty_calendar(weekends = weekday())
   expect_known_output(print(cal), file = test_path("output/print-empty-calendar-weekends.txt"))
 
   cal <- empty_calendar()

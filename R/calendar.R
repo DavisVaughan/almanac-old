@@ -23,6 +23,26 @@
 #'
 #' - `calendars` lists the set of possible calendars that can be used.
 #'
+#' @param name `[character(1)]`
+#'
+#'   The base calendar to create. This should be one of the options listed in
+#'   `calendars`.
+#'
+#' @param weekends `[character]`
+#'
+#'   Weekdays that should be special-cased as weekends. Weekends are considered
+#'   "holidays," and are skipped over when shifting dates forward in the
+#'   business week. Choose from:
+#'
+#'   - `"Sunday"`
+#'   - `"Monday"`
+#'   - `"Tuesday"`
+#'   - `"Wednesday"`
+#'   - `"Thursday"`
+#'   - `"Friday"`
+#'   - `"Saturday"`
+#'
+#'
 #' @export
 calendar <- function(name = calendars$united_states) {
   vec_assert(name, ptype = character(), size = 1L)
@@ -88,11 +108,8 @@ new_calendar <- function(name = calendars$united_states,
 
 #' @rdname calendar
 #' @export
-empty_calendar <- function(weekends = c(weekday$saturday, weekday$sunday)) {
-  weekends <- vec_cast(weekends, integer())
-  weekends <- vec_unique(weekends)
-  weekends <- vec_sort(weekends)
-  assert_weekends(weekends)
+empty_calendar <- function(weekends = c("Saturday", "Sunday")) {
+  weekends <- check_weekends(weekends)
   new_empty_calendar(weekends = weekends)
 }
 
@@ -103,10 +120,10 @@ print.empty_calendar <- function(x, ...) {
   if(has_weekends(x)) {
     header <- "Weekends: \n"
     weekends <- get_weekends(x)
-    weekdays <- vec_c(!!!weekday)
+    weekdays <- seq_along(weekday())
 
     loc_in_weekdays <- vec_match(weekends, weekdays)
-    weekends <- names(weekdays[loc_in_weekdays])
+    weekends <- weekday()[loc_in_weekdays]
     weekends <- capitalize(weekends)
 
     weekends <- paste0("   - ", weekends, "\n")
@@ -181,17 +198,6 @@ conventions <- list(
   nearest = "nearest"
 )
 
-#' @export
-weekday <- list(
-  sunday = 1L,
-  monday = 2L,
-  tuesday = 3L,
-  wednesday = 4L,
-  thursday = 5L,
-  friday = 6L,
-  saturday = 7L
-)
-
 # ------------------------------------------------------------------------------
 
 is_calendar <- function(x) {
@@ -264,15 +270,40 @@ assert_calendar <- function(x) {
   invisible(x)
 }
 
-assert_weekends <- function(x) {
-  all_weekdays <- all(x %in% 1:7)
+check_weekends <- function(weekends) {
+  vec_assert(weekends, character())
+  weekends <- vec_unique(weekends)
 
-  if (!all_weekdays) {
-    msg <- glue::glue("`weekends` must be an integer vector between 1 and 7.")
-    abort(msg)
+  weekdays <- weekday()
+
+  loc_in_weekdays <- vec_match(weekends, weekdays)
+
+  if (anyNA(loc_in_weekdays)) {
+    bad_weekends <- weekends[is.na(loc_in_weekdays)]
+    bad_weekends <- quote_collapse(bad_weekends)
+    weekdays <- quote_collapse(weekdays, last = " or ")
+    glubort("`weekends` can only contain {weekdays}, not {bad_weekends}.")
   }
 
-  invisible(x)
+  loc_in_weekdays <- vec_sort(loc_in_weekdays)
+
+  loc_in_weekdays
+}
+
+quote_collapse <- function(x, last = "") {
+  glue::glue_collapse(glue::single_quote(x), ", ", last = last)
+}
+
+weekday <- function() {
+ c(
+   "Sunday",
+   "Monday",
+   "Tuesday",
+   "Wednesday",
+   "Thursday",
+   "Friday",
+   "Saturday"
+ )
 }
 
 capitalize <- function(x) {
