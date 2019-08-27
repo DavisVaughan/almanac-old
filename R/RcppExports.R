@@ -37,6 +37,10 @@ calendar_is_end_of_month <- function(x, calendar) {
     .Call(`_calendarrr2_calendar_is_end_of_month`, x, calendar)
 }
 
+calendar_seq <- function(start, stop, by, unit, start_convention, stop_convention, end_of_month, calendar) {
+    .Call(`_calendarrr2_calendar_seq`, start, stop, by, unit, start_convention, stop_convention, end_of_month, calendar)
+}
+
 calendar_roundtrip_date <- function(x) {
     .Call(`_calendarrr2_calendar_roundtrip_date`, x)
 }

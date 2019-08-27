@@ -112,6 +112,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// calendar_seq
+Rcpp::DateVector calendar_seq(const Rcpp::DateVector start, const Rcpp::DateVector stop, const Rcpp::IntegerVector by, const std::string& unit, const std::string& start_convention, const std::string& stop_convention, const bool& end_of_month, const Rcpp::List& calendar);
+RcppExport SEXP _calendarrr2_calendar_seq(SEXP startSEXP, SEXP stopSEXP, SEXP bySEXP, SEXP unitSEXP, SEXP start_conventionSEXP, SEXP stop_conventionSEXP, SEXP end_of_monthSEXP, SEXP calendarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type start(startSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type stop(stopSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type by(bySEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type unit(unitSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type start_convention(start_conventionSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type stop_convention(stop_conventionSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type end_of_month(end_of_monthSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
+    rcpp_result_gen = Rcpp::wrap(calendar_seq(start, stop, by, unit, start_convention, stop_convention, end_of_month, calendar));
+    return rcpp_result_gen;
+END_RCPP
+}
 // calendar_roundtrip_date
 Rcpp::DateVector calendar_roundtrip_date(Rcpp::DateVector x);
 RcppExport SEXP _calendarrr2_calendar_roundtrip_date(SEXP xSEXP) {
@@ -133,6 +150,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_calendarrr2_calendar_is_business_day", (DL_FUNC) &_calendarrr2_calendar_is_business_day, 2},
     {"_calendarrr2_calendar_is_holiday", (DL_FUNC) &_calendarrr2_calendar_is_holiday, 2},
     {"_calendarrr2_calendar_is_end_of_month", (DL_FUNC) &_calendarrr2_calendar_is_end_of_month, 2},
+    {"_calendarrr2_calendar_seq", (DL_FUNC) &_calendarrr2_calendar_seq, 8},
     {"_calendarrr2_calendar_roundtrip_date", (DL_FUNC) &_calendarrr2_calendar_roundtrip_date, 1},
     {NULL, NULL, 0}
 };

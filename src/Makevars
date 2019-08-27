@@ -13,7 +13,7 @@ CXX_STD = CXX11
 # a *.cpp file. There are "better" ways to do this so we don't have to list
 # each sublevel, but this is fine for me.
 
-SOURCES = $(wildcard ./*.cpp ql/*.cpp ql/utilities/*.cpp ql/time/*.cpp ql/time/calendars/*.cpp)
+SOURCES = $(wildcard ./*.cpp ql/*.cpp ql/patterns/*.cpp ql/utilities/*.cpp ql/time/*.cpp ql/time/calendars/*.cpp)
 
 # OBJECTS I guess declare what your cpp files are going to become. We want them
 # to all become .o files in the same location as their .cpp counterpart.
