@@ -1,7 +1,7 @@
-#ifndef CALENDARRR2_UTILS_H
-#define CALENDARRR2_UTILS_H
+#ifndef ALMANAC_UTILS_H
+#define ALMANAC_UTILS_H
 
-#include "calendarrr2.h"
+#include "almanac.h"
 #include "ql/time/businessdayconvention.hpp"
 #include "ql/time/timeunit.hpp"
 

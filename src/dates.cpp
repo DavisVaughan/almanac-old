@@ -1,4 +1,4 @@
-#include "calendarrr2.h"
+#include "almanac.h"
 #include "utils.h"
 
 // [[Rcpp::export(rng=false)]]

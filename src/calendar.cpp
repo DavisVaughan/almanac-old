@@ -1,4 +1,4 @@
-#include "calendarrr2.h"
+#include "almanac.h"
 #include "ql/time/calendars/all.hpp"
 
 static QuantLib::Calendar init_calendar(const std::string& name) {

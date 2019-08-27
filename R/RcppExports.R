@@ -2,46 +2,46 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 calendar_adjust <- function(x, convention, calendar) {
-    .Call(`_calendarrr2_calendar_adjust`, x, convention, calendar)
+    .Call(`_almanac_calendar_adjust`, x, convention, calendar)
 }
 
 calendar_adjust_end_of_month <- function(x, calendar) {
-    .Call(`_calendarrr2_calendar_adjust_end_of_month`, x, calendar)
+    .Call(`_almanac_calendar_adjust_end_of_month`, x, calendar)
 }
 
 calendar_advance <- function(x, by, unit, convention, end_of_month, calendar) {
-    .Call(`_calendarrr2_calendar_advance`, x, by, unit, convention, end_of_month, calendar)
+    .Call(`_almanac_calendar_advance`, x, by, unit, convention, end_of_month, calendar)
 }
 
 calendar_detect_holidays <- function(start, stop, weekends, calendar) {
-    .Call(`_calendarrr2_calendar_detect_holidays`, start, stop, weekends, calendar)
+    .Call(`_almanac_calendar_detect_holidays`, start, stop, weekends, calendar)
 }
 
 calendar_count_business_days_between <- function(starts, stops, calendar) {
-    .Call(`_calendarrr2_calendar_count_business_days_between`, starts, stops, calendar)
+    .Call(`_almanac_calendar_count_business_days_between`, starts, stops, calendar)
 }
 
 calendar_is_weekend <- function(x, calendar) {
-    .Call(`_calendarrr2_calendar_is_weekend`, x, calendar)
+    .Call(`_almanac_calendar_is_weekend`, x, calendar)
 }
 
 calendar_is_business_day <- function(x, calendar) {
-    .Call(`_calendarrr2_calendar_is_business_day`, x, calendar)
+    .Call(`_almanac_calendar_is_business_day`, x, calendar)
 }
 
 calendar_is_holiday <- function(x, calendar) {
-    .Call(`_calendarrr2_calendar_is_holiday`, x, calendar)
+    .Call(`_almanac_calendar_is_holiday`, x, calendar)
 }
 
 calendar_is_end_of_month <- function(x, calendar) {
-    .Call(`_calendarrr2_calendar_is_end_of_month`, x, calendar)
+    .Call(`_almanac_calendar_is_end_of_month`, x, calendar)
 }
 
 calendar_seq <- function(start, stop, by, unit, start_convention, stop_convention, end_of_month, calendar) {
-    .Call(`_calendarrr2_calendar_seq`, start, stop, by, unit, start_convention, stop_convention, end_of_month, calendar)
+    .Call(`_almanac_calendar_seq`, start, stop, by, unit, start_convention, stop_convention, end_of_month, calendar)
 }
 
 calendar_roundtrip_date <- function(x) {
-    .Call(`_calendarrr2_calendar_roundtrip_date`, x)
+    .Call(`_almanac_calendar_roundtrip_date`, x)
 }
 

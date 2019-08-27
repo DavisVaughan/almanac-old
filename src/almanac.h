@@ -1,5 +1,5 @@
-#ifndef CALENDARRR2_H
-#define CALENDARRR2_H
+#ifndef ALMANAC_H
+#define ALMANAC_H
 
 #include <Rcpp.h>
 #include "ql/time/date.hpp"
