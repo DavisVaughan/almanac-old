@@ -4,7 +4,7 @@
 #     that point. So we can use the standard <ql/time/calendars/argentian.hpp>
 #     notation.
 
-PKG_CXXFLAGS = -I. -DQL_HIGH_RESOLUTION_DATE
+PKG_CXXFLAGS = -I.
 
 CXX_STD = CXX11
 
