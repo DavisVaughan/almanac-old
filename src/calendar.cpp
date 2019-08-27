@@ -2,11 +2,11 @@
 #include "ql/time/calendars/all.hpp"
 
 static QuantLib::Calendar init_calendar(const std::string& name) {
-  if (name == "united_states") {
-    return QuantLib::UnitedStates(QuantLib::UnitedStates::Settlement);
+  if (name == "argentina" || name == "argentina_merval") {
+    return QuantLib::Argentina(QuantLib::Argentina::Merval);
   }
 
-  if (name == "united_states_settlement") {
+  if (name == "united_states" || name == "united_states_settlement") {
     return QuantLib::UnitedStates(QuantLib::UnitedStates::Settlement);
   }
 
