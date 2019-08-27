@@ -35,10 +35,6 @@ cal_advance <- function(x,
   calendar_advance(x, by, unit, convention, end_of_month, calendar)
 }
 
-time_units <- function() {
-  c("day", "month", "year", "week")
-}
-
 #' @export
 cal_detect_holidays <- function(start, stop, weekends = FALSE, calendar = default_calendar()) {
   vec_assert(start, ptype = new_date(), size = 1L)
@@ -87,4 +83,10 @@ cal_is_end_of_month <- function(x, calendar = default_calendar()) {
   vec_assert(x, ptype = new_date())
   assert_calendar(calendar)
   calendar_is_end_of_month(x, calendar)
+}
+
+# ------------------------------------------------------------------------------
+
+time_units <- function() {
+  c("day", "month", "year", "week")
 }
