@@ -28,16 +28,18 @@
 
 #include <ql/types.hpp>
 
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
+// ALMANAC EDIT - COMMENT OUT PRAGMA
+//#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+//#endif
 
 #include <boost/type_traits.hpp>
 
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic pop
-#endif
+// ALMANAC EDIT - COMMENT OUT PRAGMA
+//#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
+//#pragma GCC diagnostic pop
+//#endif
 
 namespace QuantLib {
 

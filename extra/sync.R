@@ -43,6 +43,24 @@ download_and_sync <- function(release = "master") {
   files_to_copy <- path(quantlib_ql_dir, file_stubs)
 
   file_copy(files_to_copy, files_to_update, overwrite = TRUE)
+
+  message(
+    "Files copied!",
+    "\n",
+    "Now comment out pragmas in:",
+    "\n",
+    "src/ql/patterns/observable.cpp",
+    "\n",
+    "src/ql/time/date.cpp",
+    "\n",
+    "src/ql/time/imm.cpp",
+    "\n",
+    "src/ql/utilities/dataparsers.cpp",
+    "\n",
+    "src/ql/utilities/null.hpp",
+    "\n",
+    "Search for 'ALMANAC EDIT - COMMENT OUT PRAGMA'"
+  )
 }
 
 download_and_sync(release)

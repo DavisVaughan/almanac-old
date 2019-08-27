@@ -92,14 +92,16 @@ namespace QuantLib {
 #include <ql/functional.hpp>
 
 #if defined(QL_USE_STD_FUNCTION)
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
+// ALMANAC EDIT - COMMENT OUT PRAGMA
+//#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+//#endif
 #include <boost/bind.hpp>
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic pop
-#endif
+// ALMANAC EDIT - COMMENT OUT PRAGMA
+//#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
+//#pragma GCC diagnostic pop
+//#endif
 #endif
 
 #include <boost/signals2/signal_type.hpp>
