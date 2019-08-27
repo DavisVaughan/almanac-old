@@ -129,16 +129,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// calendar_roundtrip_date
-Rcpp::DateVector calendar_roundtrip_date(Rcpp::DateVector x);
-RcppExport SEXP _almanac_calendar_roundtrip_date(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DateVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(calendar_roundtrip_date(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_almanac_calendar_adjust", (DL_FUNC) &_almanac_calendar_adjust, 3},
@@ -151,7 +141,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_almanac_calendar_is_end_of_month", (DL_FUNC) &_almanac_calendar_is_end_of_month, 2},
     {"_almanac_calendar_holidays_between", (DL_FUNC) &_almanac_calendar_holidays_between, 4},
     {"_almanac_calendar_seq", (DL_FUNC) &_almanac_calendar_seq, 8},
-    {"_almanac_calendar_roundtrip_date", (DL_FUNC) &_almanac_calendar_roundtrip_date, 1},
     {NULL, NULL, 0}
 };
 

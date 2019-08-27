@@ -41,7 +41,3 @@ calendar_seq <- function(start, stop, by, unit, start_convention, stop_conventio
     .Call(`_almanac_calendar_seq`, start, stop, by, unit, start_convention, stop_convention, end_of_month, calendar)
 }
 
-calendar_roundtrip_date <- function(x) {
-    .Call(`_almanac_calendar_roundtrip_date`, x)
-}
-
