@@ -4,7 +4,9 @@
 #     that point. So we can use the standard <ql/time/calendars/argentian.hpp>
 #     notation.
 
-PKG_CPPFLAGS = -I . -DQL_HIGH_RESOLUTION_DATE
+PKG_CXXFLAGS = -I. -DQL_HIGH_RESOLUTION_DATE
+
+CXX_STD = CXX11
 
 # SOURCES are the files you want R CMD SHLIB to compile. We want to compile
 # everything in the src/ top level directory and at each sublevel that is
