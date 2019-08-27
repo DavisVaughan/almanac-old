@@ -28,21 +28,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// calendar_shift
-Rcpp::DateVector calendar_shift(const Rcpp::DateVector x, const Rcpp::IntegerVector by, const std::string& unit, const std::string& convention, const bool& end_of_month, const Rcpp::List& calendar);
-RcppExport SEXP _almanac_calendar_shift(SEXP xSEXP, SEXP bySEXP, SEXP unitSEXP, SEXP conventionSEXP, SEXP end_of_monthSEXP, SEXP calendarSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type by(bySEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type unit(unitSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type convention(conventionSEXP);
-    Rcpp::traits::input_parameter< const bool& >::type end_of_month(end_of_monthSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
-    rcpp_result_gen = Rcpp::wrap(calendar_shift(x, by, unit, convention, end_of_month, calendar));
-    return rcpp_result_gen;
-END_RCPP
-}
 // calendar_count_business_days_between
 Rcpp::IntegerVector calendar_count_business_days_between(const Rcpp::DateVector starts, const Rcpp::DateVector stops, const Rcpp::List& calendar);
 RcppExport SEXP _almanac_calendar_count_business_days_between(SEXP startsSEXP, SEXP stopsSEXP, SEXP calendarSEXP) {
@@ -129,11 +114,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// calendar_shift
+Rcpp::DateVector calendar_shift(const Rcpp::DateVector x, const Rcpp::List period, const std::string& convention, const bool& end_of_month, const Rcpp::List& calendar);
+RcppExport SEXP _almanac_calendar_shift(SEXP xSEXP, SEXP periodSEXP, SEXP conventionSEXP, SEXP end_of_monthSEXP, SEXP calendarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::List >::type period(periodSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type convention(conventionSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type end_of_month(end_of_monthSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
+    rcpp_result_gen = Rcpp::wrap(calendar_shift(x, period, convention, end_of_month, calendar));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_almanac_calendar_adjust", (DL_FUNC) &_almanac_calendar_adjust, 3},
     {"_almanac_calendar_adjust_end_of_month", (DL_FUNC) &_almanac_calendar_adjust_end_of_month, 2},
-    {"_almanac_calendar_shift", (DL_FUNC) &_almanac_calendar_shift, 6},
     {"_almanac_calendar_count_business_days_between", (DL_FUNC) &_almanac_calendar_count_business_days_between, 3},
     {"_almanac_calendar_is_weekend", (DL_FUNC) &_almanac_calendar_is_weekend, 2},
     {"_almanac_calendar_is_business_day", (DL_FUNC) &_almanac_calendar_is_business_day, 2},
@@ -141,6 +139,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_almanac_calendar_is_end_of_month", (DL_FUNC) &_almanac_calendar_is_end_of_month, 2},
     {"_almanac_calendar_holidays_between", (DL_FUNC) &_almanac_calendar_holidays_between, 4},
     {"_almanac_calendar_seq", (DL_FUNC) &_almanac_calendar_seq, 8},
+    {"_almanac_calendar_shift", (DL_FUNC) &_almanac_calendar_shift, 5},
     {NULL, NULL, 0}
 };
 

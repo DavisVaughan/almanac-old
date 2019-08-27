@@ -21,7 +21,8 @@ Imports:
     Rcpp,
     vctrs,
     rlang,
-    glue
+    glue,
+    lubridate
 Suggests: 
     tibble,
     testthat (>= 2.1.0)

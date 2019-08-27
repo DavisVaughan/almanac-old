@@ -45,39 +45,6 @@ Rcpp::DateVector calendar_adjust_end_of_month(const Rcpp::DateVector x,
 }
 
 // [[Rcpp::export(rng=false)]]
-Rcpp::DateVector calendar_shift(const Rcpp::DateVector x,
-                                const Rcpp::IntegerVector by,
-                                const std::string& unit,
-                                const std::string& convention,
-                                const bool& end_of_month,
-                                const Rcpp::List& calendar) {
-  QuantLib::Calendar ql_calendar = new_calendar(calendar);
-
-  std::vector<QuantLib::Date> dates = as_quantlib_date(x);
-  int size = x.size();
-
-  QuantLib::BusinessDayConvention ql_convention = as_business_day_convention(convention);
-  QuantLib::TimeUnit ql_timeunit = as_time_unit(unit);
-
-  std::vector<QuantLib::Date> new_dates(size);
-
-  for (int i = 0; i < size; ++i) {
-    new_dates[i] = ql_calendar.advance(
-      dates[i],
-      by[i],
-      ql_timeunit,
-      ql_convention,
-      end_of_month
-    );
-  }
-
-  Rcpp::DateVector out = as_r_date(new_dates);
-
-  reset_calendar(ql_calendar);
-  return out;
-}
-
-// [[Rcpp::export(rng=false)]]
 Rcpp::IntegerVector calendar_count_business_days_between(const Rcpp::DateVector starts,
                                                          const Rcpp::DateVector stops,
                                                          const Rcpp::List& calendar) {

@@ -14,28 +14,6 @@ cal_adjust_end_of_month <- function(x, calendar = default_calendar()) {
 }
 
 #' @export
-cal_shift <- function(x,
-                      by = 1L,
-                      unit = "day",
-                      convention = conventions$following,
-                      end_of_month = FALSE,
-                      calendar = default_calendar()) {
-  x <- vec_cast(x, new_date())
-  by <- vec_cast(by, integer())
-  arg_match(unit, time_units())
-  vec_assert(unit, character(), 1L)
-  vec_assert(convention, character(), 1L)
-  vec_assert(end_of_month, logical(), 1L)
-  assert_calendar(calendar)
-
-  args <- vec_recycle_common(x, by)
-  x <- args[[1L]]
-  by <- args[[2L]]
-
-  calendar_shift(x, by, unit, convention, end_of_month, calendar)
-}
-
-#' @export
 cal_count_business_days_between <- function(starts, stops, calendar = default_calendar()) {
   starts <- vec_cast(starts, new_date())
   stops <- vec_cast(stops, new_date())
