@@ -51,3 +51,35 @@ QuantLib::TimeUnit as_time_unit(const std::string &unit) {
 
   Rf_errorcall(R_NilValue, "Unknown `unit`, %s", unit.c_str());
 }
+
+QuantLib::Weekday as_weekday(const int& weekday) {
+  if (weekday == 1) {
+    return QuantLib::Weekday::Sunday;
+  }
+
+  if (weekday == 2) {
+    return QuantLib::Weekday::Monday;
+  }
+
+  if (weekday == 3) {
+    return QuantLib::Weekday::Tuesday;
+  }
+
+  if (weekday == 4) {
+    return QuantLib::Weekday::Wednesday;
+  }
+
+  if (weekday == 5) {
+    return QuantLib::Weekday::Thursday;
+  }
+
+  if (weekday == 6) {
+    return QuantLib::Weekday::Friday;
+  }
+
+  if (weekday == 7) {
+    return QuantLib::Weekday::Saturday;
+  }
+
+  Rf_errorcall(R_NilValue, "Unknown `weekday`, %i", weekday);
+}

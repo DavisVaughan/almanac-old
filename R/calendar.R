@@ -25,6 +25,16 @@ calendar <- function(name = calendars$united_states) {
 
 #' @rdname calendar
 #' @export
+custom_calendar <- function(weekends = c(weekday$saturday, weekday$sunday)) {
+  weekends <- vec_cast(weekends, integer())
+  weekends <- vec_unique(weekends)
+  weekends <- vec_sort(weekends)
+  assert_weekends(weekends)
+  new_custom_calendar(weekends = weekends)
+}
+
+#' @rdname calendar
+#' @export
 default_calendar <- function() {
   if (is.null(calendar_env$calendar)) {
     calendar()
@@ -64,15 +74,41 @@ print.calendar <- function(x, ...) {
     holidays <- ""
   }
 
-  # Print
   cat(
-    "<Calendar: ", get_name(x), ">", "\n",
+    get_header(x),
+    "\n",
     holidays,
     sep = ""
   )
 }
 
-new_calendar <- function(name = calendars$united_states, holidays = new_date()) {
+#' @export
+print.custom_calendar <- function(x, ...) {
+  NextMethod()
+
+  if(has_weekends(x)) {
+    header <- "Custom weekends: \n"
+    weekends <- get_weekends(x)
+    weekdays <- vec_c(!!!weekday)
+
+    loc_in_weekdays <- vec_match(weekends, weekdays)
+    weekends <- names(weekdays[loc_in_weekdays])
+    weekends <- capitalize(weekends)
+
+    weekends <- paste0("   - ", weekends, "\n")
+
+    weekends <- c(header, weekends)
+  } else {
+    weekends <- ""
+  }
+
+  cat(weekends)
+}
+
+new_calendar <- function(name = calendars$united_states,
+                         holidays = new_date(),
+                         ...,
+                         subclass = character()) {
   if (!is.character(name)) {
     abort("`name` must be a character vector.")
   }
@@ -84,9 +120,24 @@ new_calendar <- function(name = calendars$united_states, holidays = new_date()) 
   structure(
     list(
       name = name,
-      holidays = holidays
+      holidays = holidays,
+      ...
     ),
-    class = "calendar"
+    class = c(subclass, "calendar")
+  )
+}
+
+new_custom_calendar <- function(holidays = new_date(),
+                                weekends = c(weekday$saturday, weekday$sunday)) {
+  if (!is.integer(weekends)) {
+    abort("`weekends` must be an integer vector.")
+  }
+
+  new_calendar(
+    name = "custom",
+    holidays = holidays,
+    weekends = weekends,
+    subclass = "custom_calendar"
   )
 }
 
@@ -99,9 +150,7 @@ calendars <- list(
   argentina_merval = "argentina_merval",
 
   united_states = "united_states",
-  united_states_settlement = "united_states_settlement",
-
-  custom = "custom"
+  united_states_settlement = "united_states_settlement"
 )
 
 #' @export
@@ -115,6 +164,17 @@ conventions <- list(
   nearest = "nearest"
 )
 
+#' @export
+weekday <- list(
+  sunday = 1L,
+  monday = 2L,
+  tuesday = 3L,
+  wednesday = 4L,
+  thursday = 5L,
+  friday = 6L,
+  saturday = 7L
+)
+
 # ------------------------------------------------------------------------------
 
 is_calendar <- function(x) {
@@ -123,6 +183,14 @@ is_calendar <- function(x) {
 
 has_holidays <- function(x) {
   !identical(get_holidays(x), new_date())
+}
+
+has_weekends <- function(x) {
+  !identical(get_weekends(x), integer())
+}
+
+get_weekends <- function(x) {
+  x[["weekends"]]
 }
 
 get_holidays <- function(x) {
@@ -136,6 +204,14 @@ set_holidays <- function(x, holidays) {
 
 get_name <- function(x) {
   x[["name"]]
+}
+
+get_header <- function(x) {
+  if (inherits(x, "custom_calendar")) {
+    "<Custom Calendar>"
+  } else {
+    paste0("<Calendar: ", get_name(x), ">")
+  }
 }
 
 validate_calendar_name <- function(name) {
@@ -156,4 +232,19 @@ assert_calendar <- function(x) {
   }
 
   invisible(x)
+}
+
+assert_weekends <- function(x) {
+  all_weekdays <- all(x %in% 1:7)
+
+  if (!all_weekdays) {
+    msg <- glue::glue("`weekends` must be an integer vector between 1 and 7.")
+    abort(msg)
+  }
+
+  invisible(x)
+}
+
+capitalize <- function(x) {
+  paste0(toupper(substring(x, 1, 1)), substring(x, 2))
 }

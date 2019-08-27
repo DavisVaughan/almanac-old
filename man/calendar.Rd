@@ -3,13 +3,16 @@
 \docType{data}
 \name{calendar}
 \alias{calendar}
+\alias{custom_calendar}
 \alias{default_calendar}
 \alias{set_default_calendar}
 \alias{calendars}
 \title{Construct a calendar}
-\format{An object of class \code{list} of length 5.}
+\format{An object of class \code{list} of length 4.}
 \usage{
 calendar(name = calendars$united_states)
+
+custom_calendar(weekends = c(weekday$saturday, weekday$sunday))
 
 default_calendar()
 
