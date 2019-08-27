@@ -63,4 +63,18 @@ download_and_sync <- function(release = "master") {
   )
 }
 
+cat_makevars_sources <- function() {
+  here_dir <- here()
+  if (path_file(here_dir) != "almanac") {
+    stop("Must be in the `almanac` RStudio Project!")
+  }
+
+  files_to_compile <- dir_ls(almanac_src_dir, recurse = TRUE)
+  files_to_compile <- files_to_compile[str_ends(files_to_compile, ".cpp")]
+  files_to_compile <- gsub(paste0(almanac_src_dir, "/"), "", files_to_compile)
+
+  cat(files_to_compile)
+}
+
 download_and_sync(release)
+cat_makevars_sources()
