@@ -1,3 +1,4 @@
 ^almanac\.Rproj$
 ^\.Rproj\.user$
-^extra/$
+^extra$
+\.o$
