@@ -35,6 +35,24 @@ holidays_all <- function(calendar) {
 }
 
 #' @export
+holidays_all_calendars <- function() {
+  names_of_calendars <- names(calendars)
+  list_of_calendars <- lapply(names_of_calendars, calendar)
+  list_of_holidays <- lapply(list_of_calendars, holidays_all)
+
+  holiday_df <- new_data_frame(list(
+    calendar = names_of_calendars,
+    holidays = list_of_holidays
+  ))
+
+  if (is_installed("tibble")) {
+    holiday_df <- tibble::as_tibble(holiday_df)
+  }
+
+  holiday_df
+}
+
+#' @export
 holidays_between <- function(start, stop, weekends = FALSE, calendar = default_calendar()) {
   vec_assert(start, ptype = new_date(), size = 1L)
   vec_assert(stop, ptype = new_date(), size = 1L)
