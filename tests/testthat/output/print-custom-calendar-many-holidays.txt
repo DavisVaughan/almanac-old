@@ -1,4 +1,4 @@
-<Calendar: argentina>
+<Custom Calendar>
 Added holidays: 
    -  2019-01-02
    -  2019-01-03
@@ -6,3 +6,6 @@ Added holidays:
    -  2019-01-07
    -  2019-01-08
    - ...
+Custom weekends: 
+    - Sunday
+    - Saturday
