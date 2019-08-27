@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^extra$
 \.o$
+^LICENSE\.md$
