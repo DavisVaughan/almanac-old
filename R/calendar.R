@@ -23,38 +23,6 @@ calendar <- function(name = calendars$united_states) {
   new_calendar(name, holidays = new_date())
 }
 
-#' @rdname calendar
-#' @export
-custom_calendar <- function(weekends = c(weekday$saturday, weekday$sunday)) {
-  weekends <- vec_cast(weekends, integer())
-  weekends <- vec_unique(weekends)
-  weekends <- vec_sort(weekends)
-  assert_weekends(weekends)
-  new_custom_calendar(weekends = weekends)
-}
-
-#' @rdname calendar
-#' @export
-default_calendar <- function() {
-  if (is.null(calendar_env$calendar)) {
-    calendar()
-  } else {
-    calendar_env$calendar
-  }
-}
-
-#' @rdname calendar
-#' @export
-set_default_calendar <- function(x) {
-  assert_calendar(x)
-
-  calendar_env$calendar <- x
-
-  invisible(x)
-}
-
-calendar_env <- new.env(parent = emptyenv())
-
 #' @export
 print.calendar <- function(x, ...) {
   if(has_holidays(x)) {
@@ -82,6 +50,38 @@ print.calendar <- function(x, ...) {
   )
 }
 
+new_calendar <- function(name = calendars$united_states,
+                         holidays = new_date(),
+                         ...,
+                         subclass = character()) {
+  if (!is.character(name)) {
+    abort("`name` must be a character vector.")
+  }
+
+  if (!vec_is(holidays, new_date())) {
+    abort("`holidays` must be a Date vector.")
+  }
+
+  structure(
+    list(
+      name = name,
+      holidays = holidays,
+      ...
+    ),
+    class = c(subclass, "calendar")
+  )
+}
+
+#' @rdname calendar
+#' @export
+custom_calendar <- function(weekends = c(weekday$saturday, weekday$sunday)) {
+  weekends <- vec_cast(weekends, integer())
+  weekends <- vec_unique(weekends)
+  weekends <- vec_sort(weekends)
+  assert_weekends(weekends)
+  new_custom_calendar(weekends = weekends)
+}
+
 #' @export
 print.custom_calendar <- function(x, ...) {
   NextMethod()
@@ -105,28 +105,6 @@ print.custom_calendar <- function(x, ...) {
   cat(weekends)
 }
 
-new_calendar <- function(name = calendars$united_states,
-                         holidays = new_date(),
-                         ...,
-                         subclass = character()) {
-  if (!is.character(name)) {
-    abort("`name` must be a character vector.")
-  }
-
-  if (!vec_is(holidays, new_date())) {
-    abort("`holidays` must be a Date vector.")
-  }
-
-  structure(
-    list(
-      name = name,
-      holidays = holidays,
-      ...
-    ),
-    class = c(subclass, "calendar")
-  )
-}
-
 new_custom_calendar <- function(holidays = new_date(),
                                 weekends = c(weekday$saturday, weekday$sunday)) {
   if (!is.integer(weekends)) {
@@ -140,6 +118,28 @@ new_custom_calendar <- function(holidays = new_date(),
     subclass = "custom_calendar"
   )
 }
+
+#' @rdname calendar
+#' @export
+default_calendar <- function() {
+  if (is.null(calendar_env$calendar)) {
+    calendar()
+  } else {
+    calendar_env$calendar
+  }
+}
+
+#' @rdname calendar
+#' @export
+set_default_calendar <- function(x) {
+  assert_calendar(x)
+
+  calendar_env$calendar <- x
+
+  invisible(x)
+}
+
+calendar_env <- new.env(parent = emptyenv())
 
 # ------------------------------------------------------------------------------
 
