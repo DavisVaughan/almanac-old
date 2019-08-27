@@ -97,8 +97,11 @@ new_calendar <- function(name = calendars$united_states, holidays = new_date()) 
 calendars <- list(
   argentina = "argentina",
   argentina_merval = "argentina_merval",
+
   united_states = "united_states",
-  united_states_settlement = "united_states_settlement"
+  united_states_settlement = "united_states_settlement",
+
+  custom = "custom"
 )
 
 #' @export

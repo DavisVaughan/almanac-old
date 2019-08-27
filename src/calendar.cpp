@@ -10,6 +10,10 @@ static QuantLib::Calendar init_calendar(const std::string& name) {
     return QuantLib::UnitedStates(QuantLib::UnitedStates::Settlement);
   }
 
+  if (name == "custom") {
+    return QuantLib::BespokeCalendar();
+  }
+
   Rf_errorcall(R_NilValue, "Unknown calendar name, '%s'", name.c_str());
 }
 
