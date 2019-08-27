@@ -45,12 +45,12 @@ Rcpp::DateVector calendar_adjust_end_of_month(const Rcpp::DateVector x,
 }
 
 // [[Rcpp::export(rng=false)]]
-Rcpp::DateVector calendar_advance(const Rcpp::DateVector x,
-                                  const Rcpp::IntegerVector by,
-                                  const std::string& unit,
-                                  const std::string& convention,
-                                  const bool& end_of_month,
-                                  const Rcpp::List& calendar) {
+Rcpp::DateVector calendar_shift(const Rcpp::DateVector x,
+                                const Rcpp::IntegerVector by,
+                                const std::string& unit,
+                                const std::string& convention,
+                                const bool& end_of_month,
+                                const Rcpp::List& calendar) {
   QuantLib::Calendar ql_calendar = new_calendar(calendar);
 
   std::vector<QuantLib::Date> dates = as_quantlib_date(x);

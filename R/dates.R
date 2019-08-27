@@ -14,12 +14,12 @@ cal_adjust_end_of_month <- function(x, calendar = default_calendar()) {
 }
 
 #' @export
-cal_advance <- function(x,
-                        by = 1L,
-                        unit = "day",
-                        convention = conventions$following,
-                        end_of_month = FALSE,
-                        calendar = default_calendar()) {
+cal_shift <- function(x,
+                      by = 1L,
+                      unit = "day",
+                      convention = conventions$following,
+                      end_of_month = FALSE,
+                      calendar = default_calendar()) {
   vec_assert(x, ptype = new_date())
   by <- vec_cast(by, integer())
   arg_match(unit, time_units())
@@ -32,7 +32,7 @@ cal_advance <- function(x,
   x <- args[[1L]]
   by <- args[[2L]]
 
-  calendar_advance(x, by, unit, convention, end_of_month, calendar)
+  calendar_shift(x, by, unit, convention, end_of_month, calendar)
 }
 
 #' @export
