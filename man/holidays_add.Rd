@@ -10,12 +10,13 @@ holidays_add(calendar, holidays)
 holidays_remove(calendar, holidays)
 }
 \description{
-- Use `holidays_add()` to add new holidays to a calendar. Existing holidays
-  are ignored. If a holiday you are trying to add has previously been
-  removed, then it will be re-added.
-
-- Use `holiday_remove()` to remove holidays from a calendar. These can be
-  manually added holidays from using `holidays_add()`, or pre-existing
-  holidays in that calendar (such as July 4th for a certain year in the
-  `"united_states"` calendar). Dates that are not holidays are ignored.
+\itemize{
+\item Use \code{holidays_add()} to add new holidays to a calendar. Existing holidays
+are ignored. If a holiday you are trying to add has previously been
+removed, then it will be re-added.
+\item Use \code{holiday_remove()} to remove holidays from a calendar. These can be
+manually added holidays from using \code{holidays_add()}, or pre-existing
+holidays in that calendar (such as July 4th for a certain year in the
+\code{"united_states"} calendar). Dates that are not holidays are ignored.
+}
 }

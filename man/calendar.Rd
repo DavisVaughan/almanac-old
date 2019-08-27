@@ -23,16 +23,14 @@ calendars
 \description{
 These are various functions revolving around creating calendar objects, and
 setting the default calendar.
-
-- `calendar()` constructs a new 'calendar' object.
-
-- `default_calendar()` is the current default calendar. The default is just
-  to use `calendar()`.
-
-- `set_default_calendar()` is used to alter the default calendar. This is
-  set globally for all future calls to `default_calendar()` in the current
-  R session.
-
-- `calendars` lists the set of possible calendars that can be used.
+\itemize{
+\item \code{calendar()} constructs a new 'calendar' object.
+\item \code{default_calendar()} is the current default calendar. The default is just
+to use \code{calendar()}.
+\item \code{set_default_calendar()} is used to alter the default calendar. This is
+set globally for all future calls to \code{default_calendar()} in the current
+R session.
+\item \code{calendars} lists the set of possible calendars that can be used.
+}
 }
 \keyword{datasets}
