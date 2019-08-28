@@ -8,8 +8,10 @@ cal_seq <- function(start,
                     end_of_month = FALSE,
                     calendar = default_calendar()) {
 
-  vec_assert(start, ptype = new_date(), size = 1L)
-  vec_assert(stop, ptype = new_date(), size = 1L)
+  start <- vec_cast_date(start)
+  vec_assert(start, size = 1L)
+  stop <- vec_cast_date(stop)
+  vec_assert(stop, size = 1L)
   by <- vec_cast(by, integer())
   vec_assert(by, size = 1L)
   arg_match(unit, time_units())
