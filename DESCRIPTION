@@ -1,13 +1,14 @@
 Package: almanac
-Title: What the Package Does (One Line, Title Case)
+Title: Tools for Business Calendars
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Davis",
+           family = "Vaughan",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "davis@rstudio.com")
+Description: Provides tools for creating business calendars with 
+    custom holidays. Calendars can then be used to shift dates or generate 
+    sequences relative to that calendar.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
