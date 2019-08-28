@@ -108,6 +108,7 @@ is_subdaily <- function(x) {
 
 # Required to set it as a slot in BPeriod
 setOldClass("calendar")
+setOldClass(c("empty_calendar", "calendar"))
 
 setClass(
   "BPeriod",
@@ -131,6 +132,13 @@ setMethod(
   }
 )
 
+# ------------------------------------------------------------------------------
+
+setMethod("show", signature(object = "BPeriod"), function(object) {
+  cat_line("<BPeriod: ", get_name(object@cal), ">")
+  print(format(object))
+})
+
 format.BPeriod <- function(x, ...) {
   if (vec_size(x@.Data) == 0L) {
     return("BPeriod(0)")
@@ -149,6 +157,10 @@ format.BPeriod <- function(x, ...) {
   show[is.na(x)] <- NA
 
   show
+}
+
+cat_line <- function(...) {
+  cat(paste0(..., "\n", collapse = ""))
 }
 
 # ------------------------------------------------------------------------------
