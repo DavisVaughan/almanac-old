@@ -67,7 +67,7 @@
 #' @export
 holidays_add <- function(calendar, holidays) {
   assert_calendar(calendar)
-  holidays <- vec_cast(holidays, new_date())
+  holidays <- vec_cast_date(holidays)
 
   removed_holidays <- get_removed_holidays(calendar)
   in_removed <- vec_in(holidays, removed_holidays)
@@ -97,7 +97,7 @@ holidays_add <- function(calendar, holidays) {
 #' @export
 holidays_remove <- function(calendar, holidays) {
   assert_calendar(calendar)
-  holidays <- vec_cast(holidays, new_date())
+  holidays <- vec_cast_date(holidays)
 
   added_holidays <- get_added_holidays(calendar)
   in_added <- vec_in(holidays, added_holidays)
@@ -228,8 +228,8 @@ holidays_between <- function(start,
                              stop,
                              weekends = FALSE,
                              calendar = default_calendar()) {
-  start <- vec_cast(start, new_date())
-  stop <- vec_cast(stop, new_date())
+  start <- vec_cast_date(start)
+  stop <- vec_cast_date(stop)
   vec_assert(start, size = 1L)
   vec_assert(stop, size = 1L)
   assert_start_before_stop(start, stop)
