@@ -43,8 +43,8 @@ vec_arith.BPeriod.BPeriod <- function(op, x, y, ...) {
     abort("`BPeriod` objects must have identical calendars to perform arithmetic on them.")
   }
 
-  x <- as(x, "Period")
-  y <- as(y, "Period")
+  x <- as_period(x)
+  y <- as_period(y)
 
   op <- getExportedValue("base", op)
   out <- op(x, y)
@@ -54,7 +54,7 @@ vec_arith.BPeriod.BPeriod <- function(op, x, y, ...) {
 
 vec_arith.BPeriod.Period <- function(op, x, y, ...) {
   cal <- x@cal
-  x <- as(x, "Period")
+  x <- as_period(x)
 
   op <- getExportedValue("base", op)
   out <- op(x, y)
@@ -86,13 +86,13 @@ vec_arith.BPeriod.integer <- function(op, x, y, ...) {
 
 add_bperiod_to_date <- function(x, y) {
   cal <- x@cal
-  x <- as(x, "Period")
+  x <- as_period(x)
   cal_shift(x = y, period = x, cal = cal)
 }
 
 subtract_bperiod_from_date <- function(x, y) {
   cal <- x@cal
-  x <- as(x, "Period")
+  x <- as_period(x)
   cal_shift(x = y, period = -x, cal = cal)
 }
 
