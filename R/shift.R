@@ -124,6 +124,14 @@
 #' # Which means it gives the same result as preceding here
 #' cal_shift("2009-12-31", years(1), "preceding")
 #'
+#'
+#' # Shifting to the end of the business month
+#' cal_shift_end_of_month("2019-03-14")
+#'
+#' # Note that this can shift dates backwards if they are past the end of the
+#' # business month, but not yet into the next month
+#' cal_shift_end_of_month("2019-03-31")
+#'
 #' @export
 cal_shift <- function(x,
                       period = "1 day",
@@ -138,6 +146,7 @@ cal_shift <- function(x,
   calendar_shift(x, period, convention, cal)
 }
 
+#' @rdname cal_shift
 #' @export
 cal_shift_end_of_month <- function(x, cal = calendar()) {
   x <- vec_cast_date(x)

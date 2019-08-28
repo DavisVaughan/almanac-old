@@ -2,10 +2,13 @@
 % Please edit documentation in R/shift.R
 \name{cal_shift}
 \alias{cal_shift}
+\alias{cal_shift_end_of_month}
 \title{Shift dates relative to a business calendar}
 \usage{
 cal_shift(x, period = "1 day", convention = conventions$following,
   cal = calendar())
+
+cal_shift_end_of_month(x, cal = calendar())
 }
 \arguments{
 \item{x}{\code{[Date]}
@@ -126,5 +129,13 @@ cal_shift("2009-12-31", years(1), "modified_following")
 
 # Which means it gives the same result as preceding here
 cal_shift("2009-12-31", years(1), "preceding")
+
+
+# Shifting to the end of the business month
+cal_shift_end_of_month("2019-03-14")
+
+# Note that this can shift dates backwards if they are past the end of the
+# business month, but not yet into the next month
+cal_shift_end_of_month("2019-03-31")
 
 }
