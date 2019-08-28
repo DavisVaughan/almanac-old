@@ -31,3 +31,12 @@ Suggests:
     covr
 Depends: 
     R (>= 3.2)
+Collate: 
+    'RcppExports.R'
+    'almanac-package.R'
+    'calendar.R'
+    'bperiod.R'
+    'dates.R'
+    'holidays.R'
+    'schedule.R'
+    'shift.R'
