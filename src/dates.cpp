@@ -59,7 +59,7 @@ Rcpp::IntegerVector calendar_count_business_days_between(const Rcpp::DateVector 
 
   // Inclusive on both ends
   for (int i = 0; i < size; ++i) {
-    out[i] = ql_calendar.businessDaysBetween(ql_starts[i], ql_stops[i], true, true);
+    out[i] = ql_calendar.businessDaysBetween(ql_starts[i], ql_stops[i], true, false);
   }
 
   reset_calendar(ql_calendar);
