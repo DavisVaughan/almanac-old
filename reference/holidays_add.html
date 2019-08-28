@@ -165,7 +165,7 @@ holidays in that calendar (such as July 4th for a certain year in the
 <span class='no'>cal_with_holiday</span> <span class='kw'>&lt;-</span> <span class='fu'>holidays_add</span>(<span class='no'>cal</span>, <span class='no'>date</span>)
 <span class='no'>cal_with_holiday</span></div><div class='output co'>#&gt; &lt;Calendar: united_states&gt;
 #&gt; Added holidays: 
-#&gt;    -  2019-01-03</div><div class='input'>
+#&gt;  - 2019-01-03</div><div class='input'>
 <span class='co'># Now it registers as a holiday</span>
 <span class='fu'><a href='calendar-predicates.html'>cal_is_holiday</a></span>(<span class='no'>date</span>, <span class='no'>cal_with_holiday</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='cal_shift.html'>cal_shift</a></span>(<span class='st'>"2019-01-02"</span>, <span class='st'>"1 day"</span>, <span class='kw'>cal</span> <span class='kw'>=</span> <span class='no'>cal_with_holiday</span>)</div><div class='output co'>#&gt; [1] "2019-01-04"</div><div class='input'>
 <span class='co'># You can remove it afterwards</span>
@@ -179,7 +179,7 @@ holidays in that calendar (such as July 4th for a certain year in the
 <span class='no'>cal_no_new_years</span> <span class='kw'>&lt;-</span> <span class='fu'>holidays_remove</span>(<span class='no'>cal</span>, <span class='st'>"2019-01-01"</span>)
 <span class='no'>cal_no_new_years</span></div><div class='output co'>#&gt; &lt;Calendar: united_states&gt;
 #&gt; Removed holidays: 
-#&gt;    -  2019-01-01</div><div class='input'>
+#&gt;  - 2019-01-01</div><div class='input'>
 <span class='co'># Which means that this is an allowed date when shifting</span>
 <span class='fu'><a href='cal_shift.html'>cal_shift</a></span>(<span class='st'>"2018-12-31"</span>, <span class='st'>"1 day"</span>, <span class='kw'>cal</span> <span class='kw'>=</span> <span class='no'>cal</span>)</div><div class='output co'>#&gt; [1] "2019-01-02"</div><div class='input'><span class='fu'><a href='cal_shift.html'>cal_shift</a></span>(<span class='st'>"2018-12-31"</span>, <span class='st'>"1 day"</span>, <span class='kw'>cal</span> <span class='kw'>=</span> <span class='no'>cal_no_new_years</span>)</div><div class='output co'>#&gt; [1] "2019-01-01"</div><div class='input'>
 <span class='co'># List the added holidays</span>
