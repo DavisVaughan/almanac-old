@@ -1,4 +1,15 @@
-#' @export
+# README example
+# You can also generate date sequences relative to these calendars.
+#
+# ```{r}
+# # Skips over the weekend, and President's Day (2019-02-18)
+# cal_seq("2019-02-15", "2019-02-25", 1, cal = cal)
+#
+# # Skips over the weekend, includes President's Day, skips over the additional
+# # holiday on 2019-02-21
+# cal_seq("2019-02-15", "2019-02-25", 1, cal = cal_tweaked)
+# ```
+
 cal_seq <- function(start,
                     stop,
                     by = 1L,

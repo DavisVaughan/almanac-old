@@ -154,21 +154,6 @@ costs %>%
 #> 5 10065. 2019-02-20 Wed        2019-02-22 Fri      2019-02-28 Thu
 ```
 
-You can also generate date sequences relative to these calendars.
-
-``` r
-# Skips over the weekend, and President's Day (2019-02-18)
-cal_seq("2019-02-15", "2019-02-25", 1, cal = cal)
-#> [1] "2019-02-15" "2019-02-19" "2019-02-20" "2019-02-21" "2019-02-22"
-#> [6] "2019-02-25"
-
-# Skips over the weekend, includes President's Day, skips over the additional
-# holiday on 2019-02-21
-cal_seq("2019-02-15", "2019-02-25", 1, cal = cal_tweaked)
-#> [1] "2019-02-15" "2019-02-18" "2019-02-19" "2019-02-20" "2019-02-22"
-#> [6] "2019-02-25"
-```
-
 ## References
 
 This package embeds a hand curated subset of
