@@ -27,4 +27,7 @@ Imports:
     lubridate
 Suggests: 
     tibble,
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    covr
+Depends: 
+    R (>= 3.2)
