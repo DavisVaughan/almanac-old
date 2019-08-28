@@ -28,8 +28,35 @@ cal_adjust <- function(x, convention = conventions$following, cal = calendar()) 
   calendar_adjust(x, convention, cal)
 }
 
+#' Count the number of business days
+#'
+#' `cal_count()` counts the number of business days between `starts` and
+#' `stops`. The count is inclusive for `starts`, but not inclusive for `stops`.
+#' In mathematical notation, it counts the business days in the range of
+#' `[starts, stops)`.
+#'
+#' @param starts,stops `[Date]`
+#'
+#'   Vectors of `Date`s determining the boundaries to count business days
+#'   between. Recycling is performed using standard tidyverse recycling rules.
+#'
+#' @param cal `[calendar]`
+#'
+#'   A calendar.
+#'
+#' @examples
+#'
+#' # - 2018-12-31 is a business day (starts are inclusive)
+#' # - 2019-01-01 is a holiday
+#' # - 2019-01-02 is a business day
+#' # - 2019-01-02 is not included (stops are not inclusive)
+#' cal_count("2018-12-31", "2019-01-03")
+#'
+#' # Technically it is allowed for `starts` to be after `stops`
+#' cal_count("2019-01-03", "2018-12-31")
+#'
 #' @export
-cal_count_business_days_between <- function(starts, stops, cal = calendar()) {
+cal_count <- function(starts, stops, cal = calendar()) {
   starts <- vec_cast_date(starts)
   stops <- vec_cast_date(stops)
   assert_calendar(cal)
@@ -38,7 +65,7 @@ cal_count_business_days_between <- function(starts, stops, cal = calendar()) {
   starts <- args[[1L]]
   stops <- args[[2L]]
 
-  calendar_count_business_days_between(starts, stops, cal)
+  calendar_count(starts, stops, cal)
 }
 
 #' @export

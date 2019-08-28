@@ -5,8 +5,8 @@ calendar_adjust <- function(x, convention, calendar) {
     .Call(`_almanac_calendar_adjust`, x, convention, calendar)
 }
 
-calendar_count_business_days_between <- function(starts, stops, calendar) {
-    .Call(`_almanac_calendar_count_business_days_between`, starts, stops, calendar)
+calendar_count <- function(starts, stops, calendar) {
+    .Call(`_almanac_calendar_count`, starts, stops, calendar)
 }
 
 calendar_is_weekend <- function(x, calendar) {

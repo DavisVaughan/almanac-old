@@ -36,9 +36,9 @@ Rcpp::DateVector calendar_adjust(const Rcpp::DateVector x,
 }
 
 // [[Rcpp::export(rng=false)]]
-Rcpp::IntegerVector calendar_count_business_days_between(const Rcpp::DateVector starts,
-                                                         const Rcpp::DateVector stops,
-                                                         const Rcpp::List& calendar) {
+Rcpp::IntegerVector calendar_count(const Rcpp::DateVector& starts,
+                                   const Rcpp::DateVector& stops,
+                                   const Rcpp::List& calendar) {
   QuantLib::Calendar ql_calendar = new_calendar(calendar);
 
   int size = starts.size();

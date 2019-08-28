@@ -17,15 +17,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// calendar_count_business_days_between
-Rcpp::IntegerVector calendar_count_business_days_between(const Rcpp::DateVector starts, const Rcpp::DateVector stops, const Rcpp::List& calendar);
-RcppExport SEXP _almanac_calendar_count_business_days_between(SEXP startsSEXP, SEXP stopsSEXP, SEXP calendarSEXP) {
+// calendar_count
+Rcpp::IntegerVector calendar_count(const Rcpp::DateVector& starts, const Rcpp::DateVector& stops, const Rcpp::List& calendar);
+RcppExport SEXP _almanac_calendar_count(SEXP startsSEXP, SEXP stopsSEXP, SEXP calendarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type starts(startsSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type stops(stopsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DateVector& >::type starts(startsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DateVector& >::type stops(stopsSEXP);
     Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
-    rcpp_result_gen = Rcpp::wrap(calendar_count_business_days_between(starts, stops, calendar));
+    rcpp_result_gen = Rcpp::wrap(calendar_count(starts, stops, calendar));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -130,7 +130,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_almanac_calendar_adjust", (DL_FUNC) &_almanac_calendar_adjust, 3},
-    {"_almanac_calendar_count_business_days_between", (DL_FUNC) &_almanac_calendar_count_business_days_between, 3},
+    {"_almanac_calendar_count", (DL_FUNC) &_almanac_calendar_count, 3},
     {"_almanac_calendar_is_weekend", (DL_FUNC) &_almanac_calendar_is_weekend, 2},
     {"_almanac_calendar_is_business_day", (DL_FUNC) &_almanac_calendar_is_business_day, 2},
     {"_almanac_calendar_is_holiday", (DL_FUNC) &_almanac_calendar_is_holiday, 2},
