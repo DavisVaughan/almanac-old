@@ -153,3 +153,40 @@ costs %>%
 #> 4 10035. 2019-02-19 Tue        2019-02-20 Wed      2019-02-27 Wed      
 #> 5 10065. 2019-02-20 Wed        2019-02-22 Fri      2019-02-28 Thu
 ```
+
+You can also generate date sequences relative to these calendars.
+
+``` r
+# Skips over the weekend, and Valentine's Day (2019-02-18)
+cal_seq("2019-02-15", "2019-02-25", 1, calendar = cal)
+#> [1] "2019-02-15" "2019-02-19" "2019-02-20" "2019-02-21" "2019-02-22"
+#> [6] "2019-02-25"
+
+# Skips over the weekend, includes Valentine's Day, skips over the additional
+# holiday on 2019-02-21
+cal_seq("2019-02-15", "2019-02-25", 1, calendar = cal_tweaked)
+#> [1] "2019-02-15" "2019-02-18" "2019-02-19" "2019-02-20" "2019-02-22"
+#> [6] "2019-02-25"
+```
+
+## References
+
+This package embeds a hand curated subset of
+[QuantLib](https://github.com/lballabio/QuantLib) to handle the date
+calculations. almanac is standalone, and does not require a separate
+installation of QuantLib.
+
+There are a few other packages out there that have attempted similar
+projects.
+
+  - [RQuantLib](https://github.com/eddelbuettel/rquantlib) exposes a few
+    of the adjustment tools from QuantLib, but provides no support for
+    custom calendars and holidays. Additionally, it requires a separate
+    installation of QuantLib to link to.
+
+  - [RcppQuantuccia](https://github.com/eddelbuettel/rcppquantuccia) is
+    a header only subset of QuantLib that also includes the calendar
+    pieces, but again has no support for custom calendars.
+
+  - [bizdays](https://github.com/wilsonfreitas/R-bizdays) has the most
+    similar API and range of features to almanac.
