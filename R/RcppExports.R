@@ -5,10 +5,6 @@ calendar_adjust <- function(x, convention, calendar) {
     .Call(`_almanac_calendar_adjust`, x, convention, calendar)
 }
 
-calendar_adjust_end_of_month <- function(x, calendar) {
-    .Call(`_almanac_calendar_adjust_end_of_month`, x, calendar)
-}
-
 calendar_count_business_days_between <- function(starts, stops, calendar) {
     .Call(`_almanac_calendar_count_business_days_between`, starts, stops, calendar)
 }
@@ -39,5 +35,9 @@ calendar_seq <- function(start, stop, by, unit, start_convention, stop_conventio
 
 calendar_shift <- function(x, period, convention, calendar) {
     .Call(`_almanac_calendar_shift`, x, period, convention, calendar)
+}
+
+calendar_shift_end_of_month <- function(x, calendar) {
+    .Call(`_almanac_calendar_shift_end_of_month`, x, calendar)
 }
 

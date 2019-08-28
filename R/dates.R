@@ -1,16 +1,16 @@
+#' Adjust a date
+#'
+#' - `cal_adjust()` adjusts a sequence of dates according to a business
+#'   calendar. If a date is currently a holiday or weekend, it is adjusted
+#'   using the corresponding `convention`.
+#'
+#'
 #' @export
 cal_adjust <- function(x, convention = conventions$following, cal = calendar()) {
   x <- vec_cast_date(x)
   vec_assert(convention, character(), 1L)
   assert_calendar(cal)
   calendar_adjust(x, convention, cal)
-}
-
-#' @export
-cal_adjust_end_of_month <- function(x, cal = calendar()) {
-  x <- vec_cast_date(x)
-  assert_calendar(cal)
-  calendar_adjust_end_of_month(x, cal)
 }
 
 #' @export

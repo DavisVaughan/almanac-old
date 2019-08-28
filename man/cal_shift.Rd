@@ -69,8 +69,12 @@ following business day.
 A calendar.}
 }
 \description{
-\code{cal_shift()} shifts a vector of dates by a \code{period}, while respecting
+\itemize{
+\item \code{cal_shift()} shifts a vector of dates by a \code{period}, while respecting
 business calendar rules.
+\item \code{cal_shift_end_of_month()} shifts a vector of dates to the last day
+in the business month.
+}
 }
 \examples{
 library(lubridate)

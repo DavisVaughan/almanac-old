@@ -104,3 +104,34 @@ Rcpp::DateVector calendar_shift(const Rcpp::DateVector& x,
   reset_calendar(ql_calendar);
   return out;
 }
+
+// [[Rcpp::export(rng=false)]]
+Rcpp::DateVector calendar_shift_end_of_month(const Rcpp::DateVector x,
+                                             const Rcpp::List& calendar) {
+  QuantLib::Calendar ql_calendar = new_calendar(calendar);
+
+  int size = x.size();
+
+  Rcpp::Date date;
+  QuantLib::Date ql_date;
+  QuantLib::Date new_ql_date;
+  Rcpp::DateVector out(size);
+
+  for (int i = 0; i < size; ++i) {
+    date = x[i];
+
+    if (Rcpp::DateVector::is_na(date)) {
+      out[i] = NA_REAL;
+      continue;
+    }
+
+    ql_date = as_quantlib_date(date);
+
+    new_ql_date = ql_calendar.endOfMonth(ql_date);
+
+    out[i] = as_r_date(new_ql_date);
+  }
+
+  reset_calendar(ql_calendar);
+  return out;
+}

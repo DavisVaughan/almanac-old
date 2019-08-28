@@ -1,7 +1,12 @@
 #' Shift dates relative to a business calendar
 #'
-#' `cal_shift()` shifts a vector of dates by a `period`, while respecting
-#' business calendar rules.
+#' @description
+#'
+#' - `cal_shift()` shifts a vector of dates by a `period`, while respecting
+#'   business calendar rules.
+#'
+#' - `cal_shift_end_of_month()` shifts a vector of dates to the last day
+#'   in the business month.
 #'
 #' @param x `[Date]`
 #'
@@ -131,6 +136,13 @@ cal_shift <- function(x,
   period <- parse_period(period)
 
   calendar_shift(x, period, convention, cal)
+}
+
+#' @export
+cal_shift_end_of_month <- function(x, cal = calendar()) {
+  x <- vec_cast_date(x)
+  assert_calendar(cal)
+  calendar_shift_end_of_month(x, cal)
 }
 
 parse_period <- function(x) {

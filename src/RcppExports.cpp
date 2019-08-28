@@ -17,17 +17,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// calendar_adjust_end_of_month
-Rcpp::DateVector calendar_adjust_end_of_month(const Rcpp::DateVector x, const Rcpp::List& calendar);
-RcppExport SEXP _almanac_calendar_adjust_end_of_month(SEXP xSEXP, SEXP calendarSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
-    rcpp_result_gen = Rcpp::wrap(calendar_adjust_end_of_month(x, calendar));
-    return rcpp_result_gen;
-END_RCPP
-}
 // calendar_count_business_days_between
 Rcpp::IntegerVector calendar_count_business_days_between(const Rcpp::DateVector starts, const Rcpp::DateVector stops, const Rcpp::List& calendar);
 RcppExport SEXP _almanac_calendar_count_business_days_between(SEXP startsSEXP, SEXP stopsSEXP, SEXP calendarSEXP) {
@@ -127,10 +116,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// calendar_shift_end_of_month
+Rcpp::DateVector calendar_shift_end_of_month(const Rcpp::DateVector x, const Rcpp::List& calendar);
+RcppExport SEXP _almanac_calendar_shift_end_of_month(SEXP xSEXP, SEXP calendarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
+    rcpp_result_gen = Rcpp::wrap(calendar_shift_end_of_month(x, calendar));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_almanac_calendar_adjust", (DL_FUNC) &_almanac_calendar_adjust, 3},
-    {"_almanac_calendar_adjust_end_of_month", (DL_FUNC) &_almanac_calendar_adjust_end_of_month, 2},
     {"_almanac_calendar_count_business_days_between", (DL_FUNC) &_almanac_calendar_count_business_days_between, 3},
     {"_almanac_calendar_is_weekend", (DL_FUNC) &_almanac_calendar_is_weekend, 2},
     {"_almanac_calendar_is_business_day", (DL_FUNC) &_almanac_calendar_is_business_day, 2},
@@ -139,6 +138,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_almanac_calendar_holidays_between", (DL_FUNC) &_almanac_calendar_holidays_between, 4},
     {"_almanac_calendar_seq", (DL_FUNC) &_almanac_calendar_seq, 8},
     {"_almanac_calendar_shift", (DL_FUNC) &_almanac_calendar_shift, 4},
+    {"_almanac_calendar_shift_end_of_month", (DL_FUNC) &_almanac_calendar_shift_end_of_month, 2},
     {NULL, NULL, 0}
 };
 
