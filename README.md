@@ -64,7 +64,7 @@ costs
 Importantly, these are *business dates*. Generally, that means that
 there won’t be any weekend values, and holidays are observed and also
 won’t generate any values. In this data set, `02/16 - 02/17` is a
-weekend, and `02/18` is Valentine’s Day.
+weekend, and `02/18` is President’s Day.
 
 To perform any kind of rolling calculation correctly, you might need to
 “look forwards” by some number of business days. This is different
@@ -79,7 +79,7 @@ weekend support to help with these problems.
 Notice that in the example below, `"2019-02-15"` is shifted to
 `"2019-02-19"` when we request a 1 day shift (using a
 `lubridate::days()` period object\!). It skips over the weekend and
-Valentine’s Day to locate the next business day.
+President’s Day to locate the next business day.
 
 In the 5 day shift, `"2019-02-19"`, a Tuesday, is shifted all the way to
 `"2019-02-26"`, the next Tuesday, which corresponds to a “business week”
@@ -112,7 +112,7 @@ costs %>%
 ```
 
 You can tweak the calendar by adding new holidays, or removing existing
-ones. Here we add Thursday the 21st as a holiday, but remove Valentine’s
+ones. Here we add Thursday the 21st as a holiday, but remove President’s
 Day for that year.
 
 ``` r
@@ -130,7 +130,7 @@ cal_tweaked
 
 Running the same code as before with the updated calendar has different
 results. `"2019-02-15"` now shifts forward over the weekend but lands on
-`"2019-02-18"`, since we removed Valentine’s Day as a holiday. Shifting
+`"2019-02-18"`, since we removed President’s Day as a holiday. Shifting
 `"2019-02-19"` 5 business days forwards now no longer lands on another
 Tuesday since `"2019-02-21"` is now an additional holiday. Instead, it
 lands one day further on a Wednesday.
@@ -157,12 +157,12 @@ costs %>%
 You can also generate date sequences relative to these calendars.
 
 ``` r
-# Skips over the weekend, and Valentine's Day (2019-02-18)
+# Skips over the weekend, and President's Day (2019-02-18)
 cal_seq("2019-02-15", "2019-02-25", 1, cal = cal)
 #> [1] "2019-02-15" "2019-02-19" "2019-02-20" "2019-02-21" "2019-02-22"
 #> [6] "2019-02-25"
 
-# Skips over the weekend, includes Valentine's Day, skips over the additional
+# Skips over the weekend, includes President's Day, skips over the additional
 # holiday on 2019-02-21
 cal_seq("2019-02-15", "2019-02-25", 1, cal = cal_tweaked)
 #> [1] "2019-02-15" "2019-02-18" "2019-02-19" "2019-02-20" "2019-02-22"
