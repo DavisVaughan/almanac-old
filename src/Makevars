@@ -4,7 +4,12 @@
 #     that point. So we can use the standard <ql/time/calendars/argentian.hpp>
 #     notation.
 
-PKG_CXXFLAGS = -I.
+# When checking on travis while the pkgdown site is building
+# we get a number of warnings like:
+# warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+# so we define BOOST_NO_AUTO_PTR to avoid that
+
+PKG_CXXFLAGS = -I. -DBOOST_NO_AUTO_PTR
 
 CXX_STD = CXX11
 
