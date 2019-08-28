@@ -115,16 +115,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // calendar_shift
-Rcpp::DateVector calendar_shift(const Rcpp::DateVector x, const Rcpp::List period, const std::string& convention, const bool& end_of_month, const Rcpp::List& calendar);
-RcppExport SEXP _almanac_calendar_shift(SEXP xSEXP, SEXP periodSEXP, SEXP conventionSEXP, SEXP end_of_monthSEXP, SEXP calendarSEXP) {
+Rcpp::DateVector calendar_shift(const Rcpp::DateVector x, const Rcpp::List period, const std::string& convention, const Rcpp::List& calendar);
+RcppExport SEXP _almanac_calendar_shift(SEXP xSEXP, SEXP periodSEXP, SEXP conventionSEXP, SEXP calendarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::DateVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< const Rcpp::List >::type period(periodSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type convention(conventionSEXP);
-    Rcpp::traits::input_parameter< const bool& >::type end_of_month(end_of_monthSEXP);
     Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
-    rcpp_result_gen = Rcpp::wrap(calendar_shift(x, period, convention, end_of_month, calendar));
+    rcpp_result_gen = Rcpp::wrap(calendar_shift(x, period, convention, calendar));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -139,7 +138,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_almanac_calendar_is_end_of_month", (DL_FUNC) &_almanac_calendar_is_end_of_month, 2},
     {"_almanac_calendar_holidays_between", (DL_FUNC) &_almanac_calendar_holidays_between, 4},
     {"_almanac_calendar_seq", (DL_FUNC) &_almanac_calendar_seq, 8},
-    {"_almanac_calendar_shift", (DL_FUNC) &_almanac_calendar_shift, 5},
+    {"_almanac_calendar_shift", (DL_FUNC) &_almanac_calendar_shift, 4},
     {NULL, NULL, 0}
 };
 

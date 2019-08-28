@@ -1,6 +1,21 @@
 #include "almanac.h"
 #include "utils.h"
 
+// NOTE:
+// We are NOT implementing `end_of_month` here like they do in `advance()`.
+// I really don't like that this can produce dates that are out of order.
+// For example:
+// `cal_shift(c("2016-03-30", "2016-03-31"), "1 month", end_of_month = TRUE)`
+// [1] "2016-05-02" "2016-04-29"
+// `cal_is_weekend("2016-04-30")`
+// `cal_is_weekend("2016-05-01")`
+// This shift produces a decreasing sequence of dates because "2016-03-30"
+// is not an end of month date, so it is shifted forward 1 month then follows
+// the business day convention of "following". Since 4/30 and 5/01 are holidays,
+// we end up with 5/02. For "2016-03-31", it is an end of month date, so when
+// `end_of_month` is set to true we force an end of month value in the month
+// we land in (we land on 4/30), and the end of month there is 4/29.
+
 // Essentially copies the logic of `advance()` in `calendar.cpp`
 // but adjusts it so that we can shift by "1 year and 1 day" while still
 // performing business day adjustments correctly
@@ -9,7 +24,6 @@ static QuantLib::Date multi_advance(const QuantLib::Date& date,
                                     int month,
                                     int day,
                                     const QuantLib::BusinessDayConvention convention,
-                                    const bool& end_of_month,
                                     const QuantLib::Calendar calendar) {
   QuantLib::Date new_date = date;
 
@@ -19,10 +33,6 @@ static QuantLib::Date multi_advance(const QuantLib::Date& date,
 
   // If no Day shift, call adjust() and return
   if (day == 0) {
-    if (end_of_month && calendar.isEndOfMonth(date)) {
-      return calendar.endOfMonth(new_date);
-    }
-
     return calendar.adjust(new_date, convention);
   }
 
@@ -52,7 +62,6 @@ static QuantLib::Date multi_advance(const QuantLib::Date& date,
 Rcpp::DateVector calendar_shift(const Rcpp::DateVector x,
                                 const Rcpp::List period,
                                 const std::string& convention,
-                                const bool& end_of_month,
                                 const Rcpp::List& calendar) {
   QuantLib::Calendar ql_calendar = new_calendar(calendar);
 
@@ -74,8 +83,12 @@ Rcpp::DateVector calendar_shift(const Rcpp::DateVector x,
     date = dates[i];
 
     new_date = multi_advance(
-      date, year, month, day,
-      ql_convention, end_of_month, ql_calendar
+      date,
+      year,
+      month,
+      day,
+      ql_convention,
+      ql_calendar
     );
 
     new_dates[i] = new_date;

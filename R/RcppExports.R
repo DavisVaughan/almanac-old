@@ -37,7 +37,7 @@ calendar_seq <- function(start, stop, by, unit, start_convention, stop_conventio
     .Call(`_almanac_calendar_seq`, start, stop, by, unit, start_convention, stop_convention, end_of_month, calendar)
 }
 
-calendar_shift <- function(x, period, convention, end_of_month, calendar) {
-    .Call(`_almanac_calendar_shift`, x, period, convention, end_of_month, calendar)
+calendar_shift <- function(x, period, convention, calendar) {
+    .Call(`_almanac_calendar_shift`, x, period, convention, calendar)
 }
 
