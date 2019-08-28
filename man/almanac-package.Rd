@@ -4,9 +4,11 @@
 \name{almanac-package}
 \alias{almanac}
 \alias{almanac-package}
-\title{almanac: What the Package Does (One Line, Title Case)}
+\title{almanac: Tools for Business Calendars}
 \description{
-What the package does (one paragraph).
+Provides tools for creating business calendars with 
+    custom holidays. Calendars can then be used to shift dates or generate 
+    sequences relative to that calendar.
 }
 \seealso{
 Useful links:
@@ -17,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (YOUR-ORCID-ID)
+\strong{Maintainer}: Davis Vaughan \email{davis@rstudio.com}
 
 }
 \keyword{internal}

@@ -13,14 +13,6 @@
 #'   holidays, and no predefined business week. You can set the weekends on
 #'   creation.
 #'
-#' - `default_calendar()` queries the current default calendar. The default is just
-#'   to use `calendar()`, unless a global calendar has been set
-#'   with `set_default_calendar()`.
-#'
-#' - `set_default_calendar()` is used to alter the default calendar. This is
-#'   set globally for all future calls to `default_calendar()` in the current
-#'   R session.
-#'
 #' - `calendars` lists the set of possible calendars that can be used.
 #'
 #' @param name `[character(1)]`
@@ -42,19 +34,11 @@
 #'   - `"Friday"`
 #'   - `"Saturday"`
 #'
-#' @param calendar `[calendar]`
-#'
-#'   The new default calendar to use. This will be returned any time
-#'   `default_calendar()` is called, which is the default used for
-#'   the `calendar` argument across many almanac functions.
-#'
 #' @return
 #'
 #' - `calendar()` returns a new calendar.
 #'
 #' - `empty_calendar()` returns a new empty calendar.
-#'
-#' - `default_calendar()` returns the default calendar.
 #'
 #' - `calendars` returns a named `list_of<character>`.
 #'
@@ -66,18 +50,6 @@
 #' empty_calendar()
 #'
 #' empty_calendar(weekends = "Monday")
-#'
-#' default_calendar()
-#'
-#' # Set the default calendar globally
-#' cal <- calendar(calendars$argentina)
-#' set_default_calendar(cal)
-#'
-#' default_calendar()
-#'
-#' # Reset back to the original default
-#' set_default_calendar(calendar())
-#' default_calendar()
 #'
 #' # All available calendars
 #' calendars
@@ -191,28 +163,6 @@ new_empty_calendar <- function(added_holidays = new_date(),
     subclass = "empty_calendar"
   )
 }
-
-#' @rdname calendar
-#' @export
-default_calendar <- function() {
-  if (is.null(calendar_env$calendar)) {
-    calendar()
-  } else {
-    calendar_env$calendar
-  }
-}
-
-#' @rdname calendar
-#' @export
-set_default_calendar <- function(calendar) {
-  assert_calendar(calendar)
-
-  calendar_env$calendar <- calendar
-
-  invisible(calendar)
-}
-
-calendar_env <- new.env(parent = emptyenv())
 
 # ------------------------------------------------------------------------------
 

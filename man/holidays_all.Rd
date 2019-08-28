@@ -10,8 +10,7 @@ holidays_all(calendar, weekends = FALSE)
 
 holidays_all_calendars(weekends = FALSE)
 
-holidays_between(start, stop, weekends = FALSE,
-  calendar = default_calendar())
+holidays_between(start, stop, weekends = FALSE, calendar = calendar())
 }
 \arguments{
 \item{calendar}{\code{[calendar]}

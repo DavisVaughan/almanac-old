@@ -49,7 +49,7 @@ knitr::opts_chunk$set(echo = TRUE)
 - Do not define `QL_HIGH_RESOLUTION_DATE`, as datetimes are hard.
 
 - Implement `Schedules` to generate date sequences based on calendars.
-  - `cal_seq(start, stop, period, convention = "following", calendar = default_calendar())`
+  - `cal_seq(start, stop, period, convention = "following", calendar = calendar())`
     - If `start > stop`, set `rule = "backwards"` else `rule = "forwards"`
     - use `dates()` to generate the whole schedule immediately
 
@@ -60,16 +60,12 @@ knitr::opts_chunk$set(echo = TRUE)
   - `cal_is_end_of_month(x, calendar)`
   - `cal_add_holiday(x, calendar)`
   - `cal_remove_holiday(x, calendar)`
-  - `cal_holidays(start, stop, include_weekends = FALSE, calendar = default_calendar())`
-  - Use a default calendar
-    - `calendar = default_calendar()`
-    - This should be overridable globally, would set into `calendar_env$calendar`
-    - Defaults to `"united_states"`
+  - `cal_holidays(start, stop, include_weekends = FALSE, calendar = calendar())`
   - Calendar object
     - `calendar()`
     - `new_calendar()`
-  - `cal_adjust(x, convention = "following", calendar = default_calendar())`
-  - `cal_advance(x, period, convention = "following", end_of_month = FALSE, calendar = default_calendar())`
+  - `cal_adjust(x, convention = "following", calendar = calendar())`
+  - `cal_advance(x, period, convention = "following", end_of_month = FALSE, calendar = calendar())`
     - `period` is a lubridate period object
-  - `cal_count_business_days_between(start, stop, calendar = default_calendar())`
+  - `cal_count_business_days_between(start, stop, calendar = calendar())`
     - Make both of these inclusive at the C level!

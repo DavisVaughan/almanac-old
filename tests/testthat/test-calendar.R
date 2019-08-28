@@ -16,21 +16,6 @@ test_that("error when using an unknown name", {
   expect_error(calendar("arggg"), "name from `calendars`, not 'arggg'")
 })
 
-test_that("can get default calendar", {
-  expect_equal(default_calendar(), calendar())
-})
-
-test_that("can set default calendar", {
-  set_default_calendar(calendar(calendars$argentina))
-  on.exit(set_default_calendar(calendar()))
-
-  expect_equal(default_calendar(), calendar(calendars$argentina))
-})
-
-test_that("error if new default calendar is not a calendar", {
-  expect_error(set_default_calendar("x"), "'calendar', not a 'character'")
-})
-
 test_that("calendar printing", {
   cal <- calendar()
   expect_known_output(print(cal), file = test_path("output/print-calendar.txt"))

@@ -123,7 +123,7 @@
 cal_shift <- function(x,
                       period = "1 day",
                       convention = conventions$following,
-                      calendar = default_calendar()) {
+                      calendar = calendar()) {
   x <- vec_cast_date(x)
   vec_assert(convention, character(), 1L)
   assert_calendar(calendar)

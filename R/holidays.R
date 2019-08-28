@@ -232,7 +232,7 @@ holidays_all_calendars <- function(weekends = FALSE) {
 holidays_between <- function(start,
                              stop,
                              weekends = FALSE,
-                             calendar = default_calendar()) {
+                             calendar = calendar()) {
   start <- vec_cast_date(start)
   stop <- vec_cast_date(stop)
   vec_assert(start, size = 1L)

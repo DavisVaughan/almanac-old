@@ -5,7 +5,7 @@
 \title{Shift dates relative to a business calendar}
 \usage{
 cal_shift(x, period = "1 day", convention = conventions$following,
-  calendar = default_calendar())
+  calendar = calendar())
 }
 \arguments{
 \item{x}{\code{[Date]}

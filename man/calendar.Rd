@@ -4,8 +4,6 @@
 \name{calendar}
 \alias{calendar}
 \alias{empty_calendar}
-\alias{default_calendar}
-\alias{set_default_calendar}
 \alias{calendars}
 \title{Construct a calendar}
 \format{An object of class \code{vctrs_list_of} (inherits from \code{vctrs_vctr}) of length 4.}
@@ -13,10 +11,6 @@
 calendar(name = calendars$united_states)
 
 empty_calendar(weekends = c("Saturday", "Sunday"))
-
-default_calendar()
-
-set_default_calendar(calendar)
 
 calendars
 }
@@ -40,18 +34,11 @@ business week. Choose from:
 \item \code{"Friday"}
 \item \code{"Saturday"}
 }}
-
-\item{calendar}{\code{[calendar]}
-
-The new default calendar to use. This will be returned any time
-\code{default_calendar()} is called, which is the default used for
-the \code{calendar} argument across many almanac functions.}
 }
 \value{
 \itemize{
 \item \code{calendar()} returns a new calendar.
 \item \code{empty_calendar()} returns a new empty calendar.
-\item \code{default_calendar()} returns the default calendar.
 \item \code{calendars} returns a named \code{list_of<character>}.
 }
 }
@@ -65,12 +52,6 @@ pre-existing holiday list.
 \item \code{empty_calendar()} constructs a special calendar that has no predefined
 holidays, and no predefined business week. You can set the weekends on
 creation.
-\item \code{default_calendar()} queries the current default calendar. The default is just
-to use \code{calendar()}, unless a global calendar has been set
-with \code{set_default_calendar()}.
-\item \code{set_default_calendar()} is used to alter the default calendar. This is
-set globally for all future calls to \code{default_calendar()} in the current
-R session.
 \item \code{calendars} lists the set of possible calendars that can be used.
 }
 }
@@ -82,18 +63,6 @@ calendar(calendars$argentina)
 empty_calendar()
 
 empty_calendar(weekends = "Monday")
-
-default_calendar()
-
-# Set the default calendar globally
-cal <- calendar(calendars$argentina)
-set_default_calendar(cal)
-
-default_calendar()
-
-# Reset back to the original default
-set_default_calendar(calendar())
-default_calendar()
 
 # All available calendars
 calendars
