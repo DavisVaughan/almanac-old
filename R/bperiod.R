@@ -117,6 +117,10 @@ setClass(
   prototype = prototype(cal = calendar())
 )
 
+# TODO - Would like to call callNextMethod(), but I think the lubridate
+# Period initialize function is broken because it tries to set the value
+# of EVERY slot using a loop over slotNames(.Object). It should just set
+# the slots it knows about.
 setMethod(
   "initialize",
   "BPeriod",
