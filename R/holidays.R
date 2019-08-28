@@ -162,6 +162,11 @@ holidays_removed <- function(calendar) {
 #'
 #'   Should weekends be treated as holidays?
 #'
+#' @param start,stop `[Date(1)]`
+#'
+#'   Boundary values to look for holidays between. Both are inclusive
+#'   boundaries. It is required that `start` is _strictly_ less than `stop`.
+#'
 #' @return
 #'
 #' - `holidays_all()` returns a vector of `Date`s.

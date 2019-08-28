@@ -21,6 +21,11 @@ A calendar.}
 \item{weekends}{\code{[logical(1)]}
 
 Should weekends be treated as holidays?}
+
+\item{start, stop}{\code{[Date(1)]}
+
+Boundary values to look for holidays between. Both are inclusive
+boundaries. It is required that \code{start} is \emph{strictly} less than \code{stop}.}
 }
 \value{
 \itemize{
