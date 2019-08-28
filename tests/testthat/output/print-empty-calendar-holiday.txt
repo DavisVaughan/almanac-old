@@ -1,6 +1,6 @@
 <Calendar>
 Added holidays: 
-   -  2019-01-02
+ - 2019-01-02
 Weekends: 
-    - Sunday
-    - Saturday
+ - Sunday 
+ - Saturday 

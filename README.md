@@ -127,9 +127,9 @@ cal_tweaked <- cal %>%
 cal_tweaked
 #> <Calendar: united_states>
 #> Added holidays: 
-#>    -  2019-02-21
+#>  - 2019-02-21
 #> Removed holidays: 
-#>    -  2019-02-18
+#>  - 2019-02-18
 ```
 
 Running the same code as before with the updated calendar has different

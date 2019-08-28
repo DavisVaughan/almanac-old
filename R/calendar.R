@@ -137,7 +137,7 @@ print.empty_calendar <- function(x, ...) {
     weekends <- weekday()[loc_in_weekdays]
     weekends <- capitalize(weekends)
 
-    weekends <- paste0("   - ", weekends, "\n")
+    weekends <- paste("-", weekends, "\n")
 
     weekends <- c(header, weekends)
   } else {
@@ -346,10 +346,10 @@ capitalize <- function(x) {
 bullet_list <- function(x) {
   if (vec_size(x) > 5L) {
     x <- x[1:5]
-    x <- paste("   - ", x, collapse = "\n")
-    x <- c(x, "\n   - ...")
+    x <- paste(" -", x, collapse = "\n")
+    x <- c(x, "\n - ...")
   } else {
-    x <- paste("   - ", x, collapse = "\n")
+    x <- paste(" -", x, collapse = "\n")
   }
 
   x
