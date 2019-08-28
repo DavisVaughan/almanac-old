@@ -53,6 +53,10 @@ vec_arith.BPeriod.BPeriod <- function(op, x, y, ...) {
 }
 
 vec_arith.BPeriod.Period <- function(op, x, y, ...) {
+  if (is_subdaily(y)) {
+    abort("When combining a `Period` with a `BPeriod`, the `Period` cannot have a finer resolution than daily.")
+  }
+
   cal <- x@cal
   x <- as_period(x)
 
@@ -96,6 +100,10 @@ subtract_bperiod_from_date <- function(x, y) {
   cal_shift(x = y, period = -x, cal = cal)
 }
 
+is_subdaily <- function(x) {
+  sum(lubridate::hour(x), lubridate::minute(x), lubridate::second(x)) != 0L
+}
+
 # ------------------------------------------------------------------------------
 
 # Required to set it as a slot in BPeriod
@@ -122,6 +130,26 @@ setMethod(
     .Object
   }
 )
+
+format.BPeriod <- function(x, ...) {
+  if (vec_size(x@.Data) == 0L) {
+    return("BPeriod(0)")
+  }
+
+  show <- paste(
+    x@year, "y ",
+    x@month, "m ",
+    x@day, "d",
+    sep = ""
+  )
+
+  start <- regexpr("[-1-9]|(0\\.)", show)
+  show <- ifelse(start > 0, substr(show, start, nchar(show)), "0d")
+
+  show[is.na(x)] <- NA
+
+  show
+}
 
 # ------------------------------------------------------------------------------
 
