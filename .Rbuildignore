@@ -3,3 +3,4 @@
 ^extra$
 \.o$
 ^LICENSE\.md$
+^README\.Rmd$
