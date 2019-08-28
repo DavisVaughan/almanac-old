@@ -1,9 +1,24 @@
 #' Adjust a date
 #'
-#' - `cal_adjust()` adjusts a sequence of dates according to a business
-#'   calendar. If a date is currently a holiday or weekend, it is adjusted
-#'   using the corresponding `convention`.
+#' `cal_adjust()` adjusts a sequence of dates according to a business
+#' calendar. If a date is currently a holiday or weekend, it is adjusted
+#' using the corresponding `convention`.
 #'
+#' @inheritParams cal_shift
+#'
+#' @param x `[Date]`
+#'
+#'   The dates to adjust.
+#'
+#' @examples
+#'
+#' # Holidays are adjusted according to the convention
+#' cal_adjust("2019-01-01")
+#' cal_adjust("2019-01-01", "preceding")
+#'
+#' # No adjustment is required if we remove the holiday
+#' cal <- holidays_remove(calendar(), "2019-01-01")
+#' cal_adjust("2019-01-01", cal = cal)
 #'
 #' @export
 cal_adjust <- function(x, convention = conventions$following, cal = calendar()) {

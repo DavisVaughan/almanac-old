@@ -6,10 +6,67 @@
 \usage{
 cal_adjust(x, convention = conventions$following, cal = calendar())
 }
-\description{
+\arguments{
+\item{x}{\code{[Date]}
+
+The dates to adjust.}
+
+\item{convention}{\code{[character(1)]}
+
+A business day convention to follow if the date you land on after shifting
+is a holiday. These conventions only apply for monthly / yearly periods.
+For daily periods, the date is always shifted to the next available
+business day. The following conventions are available in the \link{conventions}
+object:
 \itemize{
-\item \code{cal_adjust()} adjusts a sequence of dates according to a business
+\item \code{"following"}
+
+Choose the first business day after the given holiday.
+\item \code{"modified_following"}
+
+Choose the first business day after the given
+holiday unless it belongs to a different month, in which case choose the
+first business day before the holiday.
+\item \code{"preceding"}
+
+Choose the first business day before the given holiday.
+\item \code{"modified_preceding"}
+
+Choose the first business day before the given holiday unless it belongs
+to a different month, in which case choose the first business day after
+the holiday.
+\item \code{"unadjusted"}
+
+No adjustment is made.
+\item \code{"half_month_modified_following"}
+
+Choose the first business day after the given holiday unless that day
+crosses the mid-month (15th) or the end of month, in which case choose
+the first business day before the holiday.
+\item \code{"nearest"}
+
+Choose the nearest business day to the given holiday. If both the
+preceding and following business days are equally far away, default to
+following business day.
+}}
+
+\item{cal}{\code{[calendar]}
+
+A calendar.}
+}
+\description{
+\code{cal_adjust()} adjusts a sequence of dates according to a business
 calendar. If a date is currently a holiday or weekend, it is adjusted
 using the corresponding \code{convention}.
 }
+\examples{
+
+# Holidays are adjusted according to the convention
+cal_adjust("2019-01-01")
+cal_adjust("2019-01-01", "preceding")
+
+# No adjustment is required if we remove the holiday
+cal <- holidays_remove(calendar(), "2019-01-01")
+cal_adjust("2019-01-01", cal = cal)
+
 }
