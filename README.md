@@ -12,7 +12,7 @@ calendars. Specifically, it provides utilities to:
 
   - Create calendar objects with predefined holidays / weekends.
 
-  - Extend or tweak calendar objects with custom holidays.
+  - Extend or tweak these calendar objects with custom holidays.
 
   - Shift dates forwards or backwards relative to a calendar, skipping
     over weekends and holidays.
@@ -61,28 +61,29 @@ costs
 #> 5 10065. 2019-02-20
 ```
 
-Importantly, these are business dates that follow a business calendar of
-some kind. Generally, that means that there won’t be any weekend values,
-and holidays are observed and also won’t generate any values. In this
-data set, `02/16 - 02/17` is a weekend, and `02/18` is Valentine’s Day.
+Importantly, these are *business dates*. Generally, that means that
+there won’t be any weekend values, and holidays are observed and also
+won’t generate any values. In this data set, `02/16 - 02/17` is a
+weekend, and `02/18` is Valentine’s Day.
 
 To perform any kind of rolling calculation correctly, you might need to
-“look backwards” by some number of business days. This is different
+“look forwards” by some number of business days. This is different
 from just looking forward “1 day”, because when you are at Friday, you
 really want to look forward to Monday. But if Monday is a holiday (as it
 is here\!), you really want that to actually shift to Tuesday, the
 actual next business day.
 
-almanac provides these tools.
+almanac provides tools for constructing calendars with holidays and
+weekend support to help with these problems.
 
 Notice that in the example below, `"2019-02-15"` is shifted to
 `"2019-02-19"` when we request a 1 day shift (using a
-`lubridate::days()` period object). It skips over the weekend, and
+`lubridate::days()` period object\!). It skips over the weekend and
 Valentine’s Day to locate the next business day.
 
-Additionally, in the 5 day shift, `"2019-02-19"`, a Tuesday, is shifted
-all the way to `"2019-02-26"`, the next Tuesday, which corresponds to a
-“business week” and skips over the weekend.
+In the 5 day shift, `"2019-02-19"`, a Tuesday, is shifted all the way to
+`"2019-02-26"`, the next Tuesday, which corresponds to a “business week”
+and skips over the weekend.
 
 ``` r
 # Construct a calendar object, the default is a US calendar
@@ -129,11 +130,10 @@ cal_tweaked
 
 Running the same code as before with the updated calendar has different
 results. `"2019-02-15"` now shifts forward over the weekend but lands on
-`"2019-02-18"` as being 1 business day forward, since we removed
-Valentine’s Day as a holiday. Shifting `"2019-02-19"` 5 business days
-forwards now no longer lands on another Tuesday since `"2019-02-21"` is
-now an additional holiday. Instead, it lands one day further on a
-Wednesday.
+`"2019-02-18"`, since we removed Valentine’s Day as a holiday. Shifting
+`"2019-02-19"` 5 business days forwards now no longer lands on another
+Tuesday since `"2019-02-21"` is now an additional holiday. Instead, it
+lands one day further on a Wednesday.
 
 ``` r
 costs %>%
