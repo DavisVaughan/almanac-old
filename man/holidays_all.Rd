@@ -6,14 +6,14 @@
 \alias{holidays_between}
 \title{Find holidays}
 \usage{
-holidays_all(calendar, weekends = FALSE)
+holidays_all(cal, weekends = FALSE)
 
 holidays_all_calendars(weekends = FALSE)
 
-holidays_between(start, stop, weekends = FALSE, calendar = calendar())
+holidays_between(start, stop, weekends = FALSE, cal = calendar())
 }
 \arguments{
-\item{calendar}{\code{[calendar]}
+\item{cal}{\code{[calendar]}
 
 A calendar.}
 
@@ -39,7 +39,7 @@ the tibble package is installed, a tibble will be returned.
 These functions help with locating \emph{all} holidays for a specific calendar.
 They locate both pre-existing and manually added holidays.
 \itemize{
-\item \code{holidays_all()} lists every holiday in \code{calendar} from the minimum date
+\item \code{holidays_all()} lists every holiday in \code{cal} from the minimum date
 (1901-01-01) to the maximum date (2199-12-30).
 \item \code{holidays_all_calendars()} maps \code{holidays_all()} over all calendars
 available in \link{calendars}, and returns a data frame.
@@ -57,14 +57,14 @@ holidays_all_calendars()
 # Locate holidays between two dates
 cal <- calendar()
 
-holidays_between("2019-01-01", "2019-03-01", calendar = cal)
+holidays_between("2019-01-01", "2019-03-01", cal = cal)
 
 # Manually added holidays are respected
 cal <- holidays_add(cal, "2019-01-02")
-holidays_between("2019-01-01", "2019-03-01", calendar = cal)
+holidays_between("2019-01-01", "2019-03-01", cal = cal)
 
 # So are manually removed holidays
 cal <- holidays_remove(cal, "2019-01-01")
-holidays_between("2019-01-01", "2019-03-01", calendar = cal)
+holidays_between("2019-01-01", "2019-03-01", cal = cal)
 
 }

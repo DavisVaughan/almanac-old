@@ -96,9 +96,9 @@ cal
 costs %>%
   mutate(
     dates_wday = wday(dates, label = TRUE),
-    one_day = cal_shift(dates, days(1), calendar = cal),
+    one_day = cal_shift(dates, days(1), cal = cal),
     one_wday = wday(one_day, label = TRUE),
-    five_days = cal_shift(dates, days(5), calendar = cal),
+    five_days = cal_shift(dates, days(5), cal = cal),
     five_wday = wday(five_days, label = TRUE),
   )
 #> # A tibble: 5 x 7
@@ -139,9 +139,9 @@ lands one day further on a Wednesday.
 costs %>%
   mutate(
     dates_wday = wday(dates, label = TRUE),
-    one_day = cal_shift(dates, days(1), calendar = cal_tweaked),
+    one_day = cal_shift(dates, days(1), cal = cal_tweaked),
     one_wday = wday(one_day, label = TRUE),
-    five_days = cal_shift(dates, days(5), calendar = cal_tweaked),
+    five_days = cal_shift(dates, days(5), cal = cal_tweaked),
     five_wday = wday(five_days, label = TRUE),
   )
 #> # A tibble: 5 x 7
@@ -158,13 +158,13 @@ You can also generate date sequences relative to these calendars.
 
 ``` r
 # Skips over the weekend, and Valentine's Day (2019-02-18)
-cal_seq("2019-02-15", "2019-02-25", 1, calendar = cal)
+cal_seq("2019-02-15", "2019-02-25", 1, cal = cal)
 #> [1] "2019-02-15" "2019-02-19" "2019-02-20" "2019-02-21" "2019-02-22"
 #> [6] "2019-02-25"
 
 # Skips over the weekend, includes Valentine's Day, skips over the additional
 # holiday on 2019-02-21
-cal_seq("2019-02-15", "2019-02-25", 1, calendar = cal_tweaked)
+cal_seq("2019-02-15", "2019-02-25", 1, cal = cal_tweaked)
 #> [1] "2019-02-15" "2019-02-18" "2019-02-19" "2019-02-20" "2019-02-22"
 #> [6] "2019-02-25"
 ```

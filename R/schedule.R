@@ -6,7 +6,7 @@ cal_seq <- function(start,
                     start_convention = conventions$following,
                     stop_convention = conventions$following,
                     end_of_month = FALSE,
-                    calendar = calendar()) {
+                    cal = calendar()) {
 
   start <- vec_cast_date(start)
   vec_assert(start, size = 1L)
@@ -19,7 +19,7 @@ cal_seq <- function(start,
   vec_assert(start_convention, character(), 1L)
   vec_assert(stop_convention, character(), 1L)
   vec_assert(end_of_month, logical(), 1L)
-  assert_calendar(calendar)
+  assert_calendar(cal)
 
   calendar_seq(
     start,
@@ -29,6 +29,6 @@ cal_seq <- function(start,
     start_convention,
     stop_convention,
     end_of_month,
-    calendar
+    cal
   )
 }

@@ -15,7 +15,7 @@
 #'
 #' - `holidays_removed()` lists the manually removed holidays in a calendar.
 #'
-#' @param calendar `[calendar]`
+#' @param cal `[calendar]`
 #'
 #'   A calendar.
 #'
@@ -30,7 +30,7 @@
 #'
 #' # Notice that this day is not a holiday
 #' cal_is_holiday(date, cal)
-#' cal_shift("2019-01-02", "1 day", calendar = cal)
+#' cal_shift("2019-01-02", "1 day", cal = cal)
 #'
 #' # Now let's add it as a holiday for this calendar
 #' cal_with_holiday <- holidays_add(cal, date)
@@ -38,7 +38,7 @@
 #'
 #' # Now it registers as a holiday
 #' cal_is_holiday(date, cal_with_holiday)
-#' cal_shift("2019-01-02", "1 day", calendar = cal_with_holiday)
+#' cal_shift("2019-01-02", "1 day", cal = cal_with_holiday)
 #'
 #' # You can remove it afterwards
 #' cal_back_to_normal <- holidays_remove(cal_with_holiday, date)
@@ -55,8 +55,8 @@
 #' cal_no_new_years
 #'
 #' # Which means that this is an allowed date when shifting
-#' cal_shift("2018-12-31", "1 day", calendar = cal)
-#' cal_shift("2018-12-31", "1 day", calendar = cal_no_new_years)
+#' cal_shift("2018-12-31", "1 day", cal = cal)
+#' cal_shift("2018-12-31", "1 day", cal = cal_no_new_years)
 #'
 #' # List the added holidays
 #' holidays_added(cal_with_holiday)
@@ -65,76 +65,82 @@
 #' holidays_removed(cal_no_new_years)
 #'
 #' @export
-holidays_add <- function(calendar, holidays) {
-  assert_calendar(calendar)
+holidays_add <- function(cal, holidays) {
+  assert_calendar(cal)
   holidays <- vec_cast_date(holidays)
 
-  removed_holidays <- get_removed_holidays(calendar)
+  # Silently remove NAs
+  holidays <- vec_slice(holidays, !is.na(holidays))
+
+  removed_holidays <- get_removed_holidays(cal)
   in_removed <- vec_in(holidays, removed_holidays)
 
   if (any(in_removed)) {
     removed_holidays_to_add <- vec_slice(holidays, in_removed)
     new_removed_holidays <- set_diff(removed_holidays, removed_holidays_to_add)
 
-    calendar <- set_removed_holidays(calendar, new_removed_holidays)
+    cal <- set_removed_holidays(cal, new_removed_holidays)
 
     holidays <- vec_slice(holidays, !in_removed)
   }
 
   # Only add to the holiday list if it is not already a holiday
-  is_holiday <- cal_is_holiday(holidays, calendar)
+  is_holiday <- cal_is_holiday(holidays, cal)
   holidays <- holidays[!is_holiday]
 
-  holidays <- set_union(get_added_holidays(calendar), holidays)
+  holidays <- set_union(get_added_holidays(cal), holidays)
   holidays <- vec_sort(holidays)
 
-  calendar <- set_added_holidays(calendar, holidays)
+  cal <- set_added_holidays(cal, holidays)
 
-  calendar
+  cal
 }
 
 #' @rdname holidays_add
 #' @export
-holidays_remove <- function(calendar, holidays) {
-  assert_calendar(calendar)
+holidays_remove <- function(cal, holidays) {
+  assert_calendar(cal)
   holidays <- vec_cast_date(holidays)
 
-  added_holidays <- get_added_holidays(calendar)
+  # Silently remove NAs
+  holidays <- vec_slice(holidays, !is.na(holidays))
+
+  added_holidays <- get_added_holidays(cal)
   in_added <- vec_in(holidays, added_holidays)
 
   if (any(in_added)) {
     added_holidays_to_remove <- vec_slice(holidays, in_added)
     new_added_holidays <- set_diff(added_holidays, added_holidays_to_remove)
 
-    calendar <- set_added_holidays(calendar, new_added_holidays)
+    cal <- set_added_holidays(cal, new_added_holidays)
 
     holidays <- vec_slice(holidays, !in_added)
   }
 
   # Only add to the remove list if it is actually a holiday
-  is_holiday <- cal_is_holiday(holidays, calendar)
+  is_holiday <- cal_is_holiday(holidays, cal)
   holidays <- holidays[is_holiday]
 
-  holidays <- set_union(get_removed_holidays(calendar), holidays)
+  holidays <- set_union(get_removed_holidays(cal), holidays)
   holidays <- vec_sort(holidays)
 
-  calendar <- set_removed_holidays(calendar, holidays)
+  cal <- set_removed_holidays(cal, holidays)
 
-  calendar
+  cal
 }
 
 #' @rdname holidays_add
 #' @export
-holidays_added <- function(calendar) {
-  assert_calendar(calendar)
-  get_added_holidays(calendar)
+holidays_added <- function(cal) {
+  assert_calendar(cal)
+  get_added_holidays(cal)
 }
 
 #' @rdname holidays_add
 #' @export
-holidays_removed <- function(calendar) {
-  assert_calendar(calendar)
-  get_removed_holidays(calendar)
+holidays_removed <- function(cal) {
+  assert_calendar(cal)
+  get_removed_holidays(cal)
 }
 
 # ------------------------------------------------------------------------------
@@ -146,7 +152,7 @@ holidays_removed <- function(calendar) {
 #' These functions help with locating _all_ holidays for a specific calendar.
 #' They locate both pre-existing and manually added holidays.
 #'
-#' - `holidays_all()` lists every holiday in `calendar` from the minimum date
+#' - `holidays_all()` lists every holiday in `cal` from the minimum date
 #'   (1901-01-01) to the maximum date (2199-12-30).
 #'
 #' - `holidays_all_calendars()` maps `holidays_all()` over all calendars
@@ -154,7 +160,7 @@ holidays_removed <- function(calendar) {
 #'
 #' - `holidays_between()` locates holidays betwen two dates.
 #'
-#' @param calendar `[calendar]`
+#' @param cal `[calendar]`
 #'
 #'   A calendar.
 #'
@@ -188,23 +194,23 @@ holidays_removed <- function(calendar) {
 #' # Locate holidays between two dates
 #' cal <- calendar()
 #'
-#' holidays_between("2019-01-01", "2019-03-01", calendar = cal)
+#' holidays_between("2019-01-01", "2019-03-01", cal = cal)
 #'
 #' # Manually added holidays are respected
 #' cal <- holidays_add(cal, "2019-01-02")
-#' holidays_between("2019-01-01", "2019-03-01", calendar = cal)
+#' holidays_between("2019-01-01", "2019-03-01", cal = cal)
 #'
 #' # So are manually removed holidays
 #' cal <- holidays_remove(cal, "2019-01-01")
-#' holidays_between("2019-01-01", "2019-03-01", calendar = cal)
+#' holidays_between("2019-01-01", "2019-03-01", cal = cal)
 #'
 #' @export
-holidays_all <- function(calendar, weekends = FALSE) {
+holidays_all <- function(cal, weekends = FALSE) {
   holidays_between(
     start = beginning_of_time(),
     stop = end_of_time(),
     weekends = weekends,
-    calendar = calendar
+    cal = cal
   )
 }
 
@@ -232,21 +238,21 @@ holidays_all_calendars <- function(weekends = FALSE) {
 holidays_between <- function(start,
                              stop,
                              weekends = FALSE,
-                             calendar = calendar()) {
+                             cal = calendar()) {
   start <- vec_cast_date(start)
   stop <- vec_cast_date(stop)
   vec_assert(start, size = 1L)
   vec_assert(stop, size = 1L)
   assert_start_before_stop(start, stop)
   vec_assert(weekends, ptype = logical(), size = 1L)
-  assert_calendar(calendar)
-  calendar_holidays_between(start, stop, weekends, calendar)
+  assert_calendar(cal)
+  calendar_holidays_between(start, stop, weekends, cal)
 }
 
 # ------------------------------------------------------------------------------
 
 assert_start_before_stop <- function(start, stop) {
-  if (vec_compare(start, stop) >= 0L) {
+  if (isTRUE(vec_compare(start, stop) >= 0L)) {
     glubort("`start` ({start}) must be strictly less than `stop` ({stop}).")
   }
   invisible()

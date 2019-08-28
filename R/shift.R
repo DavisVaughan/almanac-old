@@ -64,7 +64,7 @@
 #'     preceding and following business days are equally far away, default to
 #'     following business day.
 #'
-#' @param calendar `[calendar]`
+#' @param cal `[calendar]`
 #'
 #'   A calendar.
 #'
@@ -91,7 +91,7 @@
 #' # We could define a calendar where Christmas for that year is not a holiday
 #' cal <- calendar()
 #' cal <- holidays_remove(cal, "2018-12-25")
-#' cal_shift(x, "2 day", calendar = cal)
+#' cal_shift(x, "2 day", cal = cal)
 #'
 #' # ---------------------------------------------------------------------------
 #' # Conventions
@@ -123,14 +123,14 @@
 cal_shift <- function(x,
                       period = "1 day",
                       convention = conventions$following,
-                      calendar = calendar()) {
+                      cal = calendar()) {
   x <- vec_cast_date(x)
   vec_assert(convention, character(), 1L)
-  assert_calendar(calendar)
+  assert_calendar(cal)
 
   period <- parse_period(period)
 
-  calendar_shift(x, period, convention, calendar)
+  calendar_shift(x, period, convention, cal)
 }
 
 parse_period <- function(x) {
@@ -159,7 +159,15 @@ parse_period <- function(x) {
 # Safer date cast until:
 # https://github.com/r-lib/vctrs/issues/549
 vec_cast_date <- function(x) {
+  if (is.character(x)) {
+    vec_cast_date_character(x)
+  } else {
+    vec_cast(x, new_date())
+  }
+}
+
+vec_cast_date_character <- function(x) {
   to <- new_date()
   out <- vec_cast(x, to)
-  maybe_lossy_cast(out, x, to, lossy = is.na(out))
+  maybe_lossy_cast(out, x, to, lossy = is.na(out) & !is.na(x))
 }

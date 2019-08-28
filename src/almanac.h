@@ -8,8 +8,8 @@
 // -----------------------------------------------------------------------------
 // Coercion
 
-std::vector<QuantLib::Date> as_quantlib_date(const Rcpp::DateVector dates);
-Rcpp::DateVector as_r_date(const std::vector<QuantLib::Date> dates);
+QuantLib::Date as_quantlib_date(const Rcpp::Date& date);
+Rcpp::Date as_r_date(const QuantLib::Date& date);
 
 // -----------------------------------------------------------------------------
 

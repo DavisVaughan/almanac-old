@@ -69,6 +69,12 @@ test_that("weekends are counted as holidays", {
   expect_equal(holidays_added(cal), new_date())
 })
 
+test_that("NA dates are not added", {
+  cal <- calendar()
+  cal <- holidays_add(cal, c("2019-01-04", NA))
+  expect_equal(holidays_added(cal), as.Date("2019-01-04"))
+})
+
 # ------------------------------------------------------------------------------
 # Removing holidays
 
@@ -115,6 +121,12 @@ test_that("weekends can be removed, since they are holidays", {
   expect_equal(holidays_removed(cal), as.Date("2019-01-05"))
 })
 
+test_that("NA dates are not added to the removed list", {
+  cal <- calendar()
+  cal <- holidays_remove(cal, c("2019-01-05", NA))
+  expect_equal(holidays_removed(cal), as.Date("2019-01-05"))
+})
+
 # ------------------------------------------------------------------------------
 
 test_that("can look at all holidays in a calendar", {
@@ -157,13 +169,27 @@ test_that("can get holidays between dates", {
   cal <- calendar()
 
   expect_equal(
-    holidays_between("2018-12-20", "2019-01-05", calendar = cal),
+    holidays_between("2018-12-20", "2019-01-05", cal = cal),
     as.Date(c("2018-12-25", "2019-01-01"))
   )
 
   expect_equal(
-    holidays_between("2018-12-28", "2019-01-05", weekends = TRUE, calendar = cal),
+    holidays_between("2018-12-28", "2019-01-05", weekends = TRUE, cal = cal),
     as.Date(c("2018-12-29", "2018-12-30", "2019-01-01", "2019-01-05"))
+  )
+})
+
+test_that("NA start / stop values produce an empty date", {
+  cal <- calendar()
+
+  expect_equal(
+    holidays_between(NA, "2019-01-05", cal = cal),
+    new_date()
+  )
+
+  expect_equal(
+    holidays_between("2019-01-05", NA, cal = cal),
+    new_date()
   )
 })
 
@@ -172,7 +198,7 @@ test_that("custom holidays are included when searching for holidays", {
   cal <- holidays_add(cal, "2019-01-02")
 
   expect_equal(
-    holidays_between("2018-12-20", "2019-01-05", calendar = cal),
+    holidays_between("2018-12-20", "2019-01-05", cal = cal),
     as.Date(c("2018-12-25", "2019-01-01", "2019-01-02"))
   )
 })

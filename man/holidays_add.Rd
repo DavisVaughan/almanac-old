@@ -7,16 +7,16 @@
 \alias{holidays_removed}
 \title{Add and remove holidays}
 \usage{
-holidays_add(calendar, holidays)
+holidays_add(cal, holidays)
 
-holidays_remove(calendar, holidays)
+holidays_remove(cal, holidays)
 
-holidays_added(calendar)
+holidays_added(cal)
 
-holidays_removed(calendar)
+holidays_removed(cal)
 }
 \arguments{
-\item{calendar}{\code{[calendar]}
+\item{cal}{\code{[calendar]}
 
 A calendar.}
 
@@ -44,7 +44,7 @@ date <- as.Date("2019-01-03")
 
 # Notice that this day is not a holiday
 cal_is_holiday(date, cal)
-cal_shift("2019-01-02", "1 day", calendar = cal)
+cal_shift("2019-01-02", "1 day", cal = cal)
 
 # Now let's add it as a holiday for this calendar
 cal_with_holiday <- holidays_add(cal, date)
@@ -52,7 +52,7 @@ cal_with_holiday
 
 # Now it registers as a holiday
 cal_is_holiday(date, cal_with_holiday)
-cal_shift("2019-01-02", "1 day", calendar = cal_with_holiday)
+cal_shift("2019-01-02", "1 day", cal = cal_with_holiday)
 
 # You can remove it afterwards
 cal_back_to_normal <- holidays_remove(cal_with_holiday, date)
@@ -69,8 +69,8 @@ cal_no_new_years <- holidays_remove(cal, "2019-01-01")
 cal_no_new_years
 
 # Which means that this is an allowed date when shifting
-cal_shift("2018-12-31", "1 day", calendar = cal)
-cal_shift("2018-12-31", "1 day", calendar = cal_no_new_years)
+cal_shift("2018-12-31", "1 day", cal = cal)
+cal_shift("2018-12-31", "1 day", cal = cal_no_new_years)
 
 # List the added holidays
 holidays_added(cal_with_holiday)

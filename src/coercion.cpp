@@ -2,46 +2,26 @@
 
 static const unsigned int quantlib_to_r_offset_in_days = 25569;
 
-std::vector<QuantLib::Date> as_quantlib_date(const Rcpp::DateVector dates) {
-  int size = dates.size();
+QuantLib::Date as_quantlib_date(const Rcpp::Date& date) {
+  QuantLib::Date new_date;
 
-  std::vector<QuantLib::Date> new_dates(size);
+  int r_integer_date = static_cast<int>(date.getDate());
+  int quantlib_integer_date = r_integer_date + quantlib_to_r_offset_in_days;
 
-  Rcpp::Date date;
-  int r_integer_date;
-  int quantlib_integer_date;
+  new_date = QuantLib::Date(quantlib_integer_date);
 
-  for (int i = 0; i < size; ++i) {
-    date = dates[i];
-
-    r_integer_date = static_cast<int>(date.getDate());
-    quantlib_integer_date = r_integer_date + quantlib_to_r_offset_in_days;
-
-    new_dates[i] = QuantLib::Date(quantlib_integer_date);
-  }
-
-  return new_dates;
+  return new_date;
 }
 
-Rcpp::DateVector as_r_date(const std::vector<QuantLib::Date> dates) {
-  int size = dates.size();
+Rcpp::Date as_r_date(const QuantLib::Date& date) {
+  Rcpp::Date new_date;
 
-  Rcpp::DateVector new_dates(size);
+  int quantlib_integer_date = date.serialNumber();
+  int r_integer_date = quantlib_integer_date - quantlib_to_r_offset_in_days;
 
-  QuantLib::Date date;
-  int r_integer_date;
-  int quantlib_integer_date;
+  new_date = Rcpp::Date(r_integer_date);
 
-  for (int i = 0; i < size; ++i) {
-    date = dates[i];
-
-    quantlib_integer_date = date.serialNumber();
-    r_integer_date = quantlib_integer_date - quantlib_to_r_offset_in_days;
-
-    new_dates[i] = Rcpp::Date(r_integer_date);
-  }
-
-  return new_dates;
+  return new_date;
 }
 
 // -----------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 \title{Shift dates relative to a business calendar}
 \usage{
 cal_shift(x, period = "1 day", convention = conventions$following,
-  calendar = calendar())
+  cal = calendar())
 }
 \arguments{
 \item{x}{\code{[Date]}
@@ -64,7 +64,7 @@ preceding and following business days are equally far away, default to
 following business day.
 }}
 
-\item{calendar}{\code{[calendar]}
+\item{cal}{\code{[calendar]}
 
 A calendar.}
 }
@@ -95,7 +95,7 @@ cal_shift(x, "2 day")
 # We could define a calendar where Christmas for that year is not a holiday
 cal <- calendar()
 cal <- holidays_remove(cal, "2018-12-25")
-cal_shift(x, "2 day", calendar = cal)
+cal_shift(x, "2 day", cal = cal)
 
 # ---------------------------------------------------------------------------
 # Conventions

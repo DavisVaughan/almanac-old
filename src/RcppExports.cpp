@@ -85,26 +85,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // calendar_holidays_between
-Rcpp::DateVector calendar_holidays_between(const Rcpp::DateVector start, const Rcpp::DateVector stop, const bool weekends, const Rcpp::List& calendar);
+Rcpp::DateVector calendar_holidays_between(const Rcpp::DateVector& start, const Rcpp::DateVector& stop, const bool& weekends, const Rcpp::List& calendar);
 RcppExport SEXP _almanac_calendar_holidays_between(SEXP startSEXP, SEXP stopSEXP, SEXP weekendsSEXP, SEXP calendarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type start(startSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type stop(stopSEXP);
-    Rcpp::traits::input_parameter< const bool >::type weekends(weekendsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DateVector& >::type start(startSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DateVector& >::type stop(stopSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type weekends(weekendsSEXP);
     Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
     rcpp_result_gen = Rcpp::wrap(calendar_holidays_between(start, stop, weekends, calendar));
     return rcpp_result_gen;
 END_RCPP
 }
 // calendar_seq
-Rcpp::DateVector calendar_seq(const Rcpp::DateVector start, const Rcpp::DateVector stop, const Rcpp::IntegerVector by, const std::string& unit, const std::string& start_convention, const std::string& stop_convention, const bool& end_of_month, const Rcpp::List& calendar);
+Rcpp::DateVector calendar_seq(const Rcpp::DateVector& start, const Rcpp::DateVector& stop, const int& by, const std::string& unit, const std::string& start_convention, const std::string& stop_convention, const bool& end_of_month, const Rcpp::List& calendar);
 RcppExport SEXP _almanac_calendar_seq(SEXP startSEXP, SEXP stopSEXP, SEXP bySEXP, SEXP unitSEXP, SEXP start_conventionSEXP, SEXP stop_conventionSEXP, SEXP end_of_monthSEXP, SEXP calendarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type start(startSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type stop(stopSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type by(bySEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DateVector& >::type start(startSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DateVector& >::type stop(stopSEXP);
+    Rcpp::traits::input_parameter< const int& >::type by(bySEXP);
     Rcpp::traits::input_parameter< const std::string& >::type unit(unitSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type start_convention(start_conventionSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type stop_convention(stop_conventionSEXP);
@@ -115,12 +115,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // calendar_shift
-Rcpp::DateVector calendar_shift(const Rcpp::DateVector x, const Rcpp::List period, const std::string& convention, const Rcpp::List& calendar);
+Rcpp::DateVector calendar_shift(const Rcpp::DateVector& x, const Rcpp::List& period, const std::string& convention, const Rcpp::List& calendar);
 RcppExport SEXP _almanac_calendar_shift(SEXP xSEXP, SEXP periodSEXP, SEXP conventionSEXP, SEXP calendarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const Rcpp::DateVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::List >::type period(periodSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DateVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type period(periodSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type convention(conventionSEXP);
     Rcpp::traits::input_parameter< const Rcpp::List& >::type calendar(calendarSEXP);
     rcpp_result_gen = Rcpp::wrap(calendar_shift(x, period, convention, calendar));

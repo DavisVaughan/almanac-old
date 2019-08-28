@@ -59,13 +59,12 @@ static QuantLib::Date multi_advance(const QuantLib::Date& date,
 }
 
 // [[Rcpp::export(rng=false)]]
-Rcpp::DateVector calendar_shift(const Rcpp::DateVector x,
-                                const Rcpp::List period,
+Rcpp::DateVector calendar_shift(const Rcpp::DateVector& x,
+                                const Rcpp::List& period,
                                 const std::string& convention,
                                 const Rcpp::List& calendar) {
   QuantLib::Calendar ql_calendar = new_calendar(calendar);
 
-  std::vector<QuantLib::Date> dates = as_quantlib_date(x);
   int size = x.size();
 
   int year = period[0];
@@ -74,16 +73,24 @@ Rcpp::DateVector calendar_shift(const Rcpp::DateVector x,
 
   QuantLib::BusinessDayConvention ql_convention = as_business_day_convention(convention);
 
-  QuantLib::Date date;
-  QuantLib::Date new_date;
+  QuantLib::Date ql_date;
+  QuantLib::Date new_ql_date;
 
-  std::vector<QuantLib::Date> new_dates(size);
+  Rcpp::Date date;
+  Rcpp::DateVector out(size);
 
   for (int i = 0; i < size; ++i) {
-    date = dates[i];
+    date = x[i];
 
-    new_date = multi_advance(
-      date,
+    if (Rcpp::DateVector::is_na(date)) {
+      out[i] = NA_REAL;
+      continue;
+    }
+
+    ql_date = as_quantlib_date(date);
+
+    new_ql_date = multi_advance(
+      ql_date,
       year,
       month,
       day,
@@ -91,10 +98,8 @@ Rcpp::DateVector calendar_shift(const Rcpp::DateVector x,
       ql_calendar
     );
 
-    new_dates[i] = new_date;
+    out[i] = as_r_date(new_ql_date);
   }
-
-  Rcpp::DateVector out = as_r_date(new_dates);
 
   reset_calendar(ql_calendar);
   return out;
