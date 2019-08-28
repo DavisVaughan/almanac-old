@@ -206,6 +206,21 @@ setMethod(
 
 # ------------------------------------------------------------------------------
 
+# So vec_recycle() and vec_slice() work
+
+setMethod(
+  "[",
+  signature(x = "BPeriod"),
+  function(x, i, j, ..., drop = TRUE) {
+    cal <- x@cal
+    x <- as_period(x)
+    x <- x[i, j, ..., drop = drop]
+    new_bperiod(x, cal)
+  }
+)
+
+# ------------------------------------------------------------------------------
+
 # as(<BPeriod>, "Period")
 setMethod(
   "coerce",
