@@ -226,6 +226,50 @@ calendars <- vctrs::list_of(
   united_states_settlement = "united_states_settlement"
 )
 
+#' Business day conventions
+#'
+#' @description
+#'
+#' The following business day conventions are used throughout the package. They
+#' are generally applied when you land on a holiday or weekend, and have to
+#' decide which direction to shift to move to the next date.
+#'
+#'   - `"following"`
+#'
+#'     Choose the first business day after the given holiday.
+#'
+#'   - `"modified_following"`
+#'
+#'     Choose the first business day after the given
+#'     holiday unless it belongs to a different month, in which case choose the
+#'     first business day before the holiday.
+#'
+#'   - `"preceding"`
+#'
+#'     Choose the first business day before the given holiday.
+#'
+#'   - `"modified_preceding"`
+#'
+#'     Choose the first business day before the given holiday unless it belongs
+#'     to a different month, in which case choose the first business day after
+#'     the holiday.
+#'
+#'   - `"unadjusted"`
+#'
+#'     No adjustment is made.
+#'
+#'   - `"half_month_modified_following"`
+#'
+#'     Choose the first business day after the given holiday unless that day
+#'     crosses the mid-month (15th) or the end of month, in which case choose
+#'     the first business day before the holiday.
+#'
+#'   - `"nearest"`
+#'
+#'     Choose the nearest business day to the given holiday. If both the
+#'     preceding and following business days are equally far away, default to
+#'     following business day.
+#'
 #' @export
 conventions <- vctrs::list_of(
   following = "following",
