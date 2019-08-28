@@ -84,9 +84,9 @@ holidays_add <- function(cal, holidays) {
     holidays <- vec_slice(holidays, !in_removed)
   }
 
-  # Only add to the holiday list if it is not already a holiday
-  is_holiday <- cal_is_holiday(holidays, cal)
-  holidays <- holidays[!is_holiday]
+  # Only add to the holiday list if it is not already a holiday (or weekend)
+  is_holiday_or_weekend <- !cal_is_business_day(holidays, cal)
+  holidays <- holidays[!is_holiday_or_weekend]
 
   holidays <- set_union(get_added_holidays(cal), holidays)
   holidays <- vec_sort(holidays)
@@ -117,9 +117,9 @@ holidays_remove <- function(cal, holidays) {
     holidays <- vec_slice(holidays, !in_added)
   }
 
-  # Only add to the remove list if it is actually a holiday
-  is_holiday <- cal_is_holiday(holidays, cal)
-  holidays <- holidays[is_holiday]
+  # Only add to the remove list if it is actually a holiday (or weekend)
+  is_holiday_or_weekend <- !cal_is_business_day(holidays, cal)
+  holidays <- holidays[is_holiday_or_weekend]
 
   holidays <- set_union(get_removed_holidays(cal), holidays)
   holidays <- vec_sort(holidays)
