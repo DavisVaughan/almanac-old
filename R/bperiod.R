@@ -35,6 +35,23 @@ vec_arith.BPeriod <- function(op, x, y, ...) {
   UseMethod("vec_arith.BPeriod", y)
 }
 
+vec_arith.BPeriod.BPeriod <- function(op, x, y, ...) {
+  x_cal <- x@cal
+  y_cal <- y@cal
+
+  if (!identical(x_cal, y_cal)) {
+    abort("`BPeriod` objects must have identical calendars to perform arithmetic on them.")
+  }
+
+  x <- as(x, "Period")
+  y <- as(y, "Period")
+
+  op <- getExportedValue("base", op)
+  out <- op(x, y)
+
+  new_bperiod(period = out, cal = x_cal)
+}
+
 vec_arith.BPeriod.Period <- function(op, x, y, ...) {
   cal <- x@cal
   x <- as(x, "Period")
