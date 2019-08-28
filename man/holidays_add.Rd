@@ -3,20 +3,79 @@
 \name{holidays_add}
 \alias{holidays_add}
 \alias{holidays_remove}
+\alias{holidays_added}
+\alias{holidays_removed}
 \title{Add and remove holidays}
 \usage{
 holidays_add(calendar, holidays)
 
 holidays_remove(calendar, holidays)
+
+holidays_added(calendar)
+
+holidays_removed(calendar)
+}
+\arguments{
+\item{calendar}{\code{[calendar]}
+
+A calendar.}
+
+\item{holidays}{\code{[Date]}
+
+A vector of dates to add or remove from a calendar.}
 }
 \description{
 \itemize{
-\item Use \code{holidays_add()} to add new holidays to a calendar. Existing holidays
+\item \code{holidays_add()} adds new holidays to a calendar. Existing holidays
 are ignored. If a holiday you are trying to add has previously been
 removed, then it will be re-added.
-\item Use \code{holiday_remove()} to remove holidays from a calendar. These can be
+\item \code{holidays_remove()} remove holidays from a calendar. These can be
 manually added holidays from using \code{holidays_add()}, or pre-existing
 holidays in that calendar (such as July 4th for a certain year in the
 \code{"united_states"} calendar). Dates that are not holidays are ignored.
+\item \code{holidays_added()} lists the manually added holidays in a calendar.
+\item \code{holidays_removed()} lists the manually removed holidays in a calendar.
 }
+}
+\examples{
+cal <- calendar()
+
+date <- as.Date("2019-01-03")
+
+# Notice that this day is not a holiday
+cal_is_holiday(date, cal)
+cal_shift("2019-01-02", "1 day", calendar = cal)
+
+# Now let's add it as a holiday for this calendar
+cal_with_holiday <- holidays_add(cal, date)
+cal_with_holiday
+
+# Now it registers as a holiday
+cal_is_holiday(date, cal_with_holiday)
+cal_shift("2019-01-02", "1 day", calendar = cal_with_holiday)
+
+# You can remove it afterwards
+cal_back_to_normal <- holidays_remove(cal_with_holiday, date)
+cal_back_to_normal
+
+# Dates that are already holidays are ignored if you try to add them
+# This is New Years
+cal_is_holiday("2019-01-01", cal)
+holidays_add(cal, "2019-01-01")
+
+# If you don't want New Years to be a holiday in the US calendar, you
+# can remove it
+cal_no_new_years <- holidays_remove(cal, "2019-01-01")
+cal_no_new_years
+
+# Which means that this is an allowed date when shifting
+cal_shift("2018-12-31", "1 day", calendar = cal)
+cal_shift("2018-12-31", "1 day", calendar = cal_no_new_years)
+
+# List the added holidays
+holidays_added(cal_with_holiday)
+
+# List the removed holidays
+holidays_removed(cal_no_new_years)
+
 }
