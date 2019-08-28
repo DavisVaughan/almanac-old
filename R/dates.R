@@ -68,6 +68,58 @@ cal_count <- function(starts, stops, cal = calendar()) {
   calendar_count(starts, stops, cal)
 }
 
+#' Calendar predicates
+#'
+#' @description
+#'
+#' - `cal_is_weekend()` checks if `x` is a weekend.
+#'
+#' - `cal_is_business_day()` checks if `x` is a business day (i.e., not a
+#'   weekend and not a holiday).
+#'
+#' - `cal_is_holiday()` checks if `x` is a business holiday (but not a weekend).
+#'
+#' - `cal_is_end_of_month()` checks if `x` is the last business day of
+#'   the month.
+#'
+#' @param x `[Date]`
+#'
+#'   A vector of dates to check.
+#'
+#' @param cal `[calendar]`
+#'
+#'   A calendar.
+#'
+#' @return
+#'
+#' A logical vector the same size as `x`.
+#'
+#' @examples
+#' # Not a weekend
+#' cal_is_weekend("2019-01-01")
+#'
+#' # But it is a business holiday!
+#' cal_is_holiday("2019-01-01")
+#'
+#' # This is a weekend
+#' cal_is_weekend("2019-01-05")
+#'
+#' # Neither are business days
+#' cal_is_business_day(c("2019-01-01", "2019-01-05"))
+#'
+#' # You can remove all holidays and weekends with an empty calendar,
+#' # which is then respected by `cal_is_holiday()` and `cal_is_weekend()`
+#' cal_no_weekends_no_holidays <- empty_calendar(weekends = character())
+#' cal_is_holiday("2019-01-01", cal_no_weekends_no_holidays)
+#' cal_is_weekend("2019-01-05", cal_no_weekends_no_holidays)
+#'
+#' # The "end of the month" is relative to the business calendar, meaning
+#' # that it is the last business day of the month, not the last day of the
+#' # month
+#' cal_is_weekend(c("2019-03-29", "2019-03-30", "2019-03-31"))
+#' cal_is_end_of_month(c("2019-03-29", "2019-03-30", "2019-03-31"))
+#'
+#' @name calendar-predicates
 #' @export
 cal_is_weekend <- function(x, cal = calendar()) {
   x <- vec_cast_date(x)
@@ -75,6 +127,7 @@ cal_is_weekend <- function(x, cal = calendar()) {
   calendar_is_weekend(x, cal)
 }
 
+#' @rdname calendar-predicates
 #' @export
 cal_is_business_day <- function(x, cal = calendar()) {
   x <- vec_cast_date(x)
@@ -82,18 +135,28 @@ cal_is_business_day <- function(x, cal = calendar()) {
   calendar_is_business_day(x, cal)
 }
 
+#' @rdname calendar-predicates
 #' @export
 cal_is_holiday <- function(x, cal = calendar()) {
   x <- vec_cast_date(x)
   assert_calendar(cal)
-  calendar_is_holiday(x, cal)
+
+  # In quantlib, "holidays" are weekends or holidays, but we only want
+  # strict holidays here.
+  calendar_is_holiday(x, cal) & !cal_is_weekend(x, cal)
 }
 
+#' @rdname calendar-predicates
 #' @export
 cal_is_end_of_month <- function(x, cal = calendar()) {
   x <- vec_cast_date(x)
   assert_calendar(cal)
-  calendar_is_end_of_month(x, cal)
+
+  # In quantlib, the end of the month is "iff in the given market, the date is
+  # on or after the last business day for that month." this is not a bug:
+  # https://github.com/lballabio/QuantLib/issues/376
+  # but we want to only report the end of the business month
+  calendar_is_end_of_month(x, cal) & cal_is_business_day(x, cal)
 }
 
 # ------------------------------------------------------------------------------
