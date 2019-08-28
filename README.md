@@ -182,11 +182,15 @@ projects.
   - [RQuantLib](https://github.com/eddelbuettel/rquantlib) exposes a few
     of the adjustment tools from QuantLib, but provides no support for
     custom calendars and holidays. Additionally, it requires a separate
-    installation of QuantLib to link to.
+    installation of QuantLib to link to, which can be a bit heavy. Other
+    than that, it is a great tool with a more broad subset of utilities,
+    such as option pricing.
 
   - [RcppQuantuccia](https://github.com/eddelbuettel/rcppquantuccia) is
     a header only subset of QuantLib that also includes the calendar
-    pieces, but again has no support for custom calendars.
+    sections, but again has no support for custom calendars. It did
+    provide me with some of the basic infrastructure to get started
+    though, so I’m grateful for that.
 
   - [bizdays](https://github.com/wilsonfreitas/R-bizdays) has the most
     similar API and range of features to almanac.
